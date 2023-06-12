@@ -7,6 +7,8 @@ import { query, validationResult } from 'express-validator';
 
 export  const router = express.Router();
 const Service= new ProductService();
+const ServiceCart= new CartService();
+
 /*router.get('/',(req,res)=>{
 res.render('index',{});
 })
@@ -68,10 +70,10 @@ router.get('/products', async (req, res)=> {
 router.get('/carts/:cid',  async (req, res) => {
     try {
         const { cid } = req.params;
-        const cart = await CartService.getCartById(cid);
+        const cart = await ServiceCart.getCartById(cid);
         const object = {
             title: "Productos",
-            products: cart.product,
+            products: cart.products,
             id: cart._id,
         };
         res.render("cart", object);
