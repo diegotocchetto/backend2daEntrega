@@ -26,7 +26,7 @@ app.use(express.json());
 app.use('/static',express.static('./src/public'));
 app.use('/api/carts', routerCar);
 app.use('/api/products', productRouter);
-app.use("/", realTimeRouter)
+//app.use("/", realTimeRouter)
 
 // Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -35,8 +35,8 @@ app.set("view engine", "handlebars");
 app.use(express.static(__dirname+'/public'));
 //app.use('/home',viewsRouter);
 app.use('/chat',ChatRouter);
-app.use('/products', viewsRouter); //voy  aseparr os routeers
-app.use('/carts/:cid', viewsRouter);
+app.use('/', viewsRouter); //deberia separar los router por problemas en cargas de vistas
+//app.use('/carts/:cid', viewsRouter);
 //app.use('/', viewsRouter);
 
 

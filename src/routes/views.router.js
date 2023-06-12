@@ -64,7 +64,7 @@ router.get('/products', async (req, res)=> {
 })
 
 
-//vista del carro segunda entrega
+//vista del carro segunda entrega// problema en carga desde e explorador preguntar a tutor
 router.get('/carts/:cid',  async (req, res) => {
     try {
         const { cid } = req.params;
