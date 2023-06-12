@@ -1,0 +1,34 @@
+<h1>PRODUCTS LIST</h1>
+
+<div>
+    {{#each products }}
+        <ul>
+
+            <li>
+                Title: {{this.title}}
+            </li>
+            <li>
+                Description: {{this.description}}
+            </li>
+            <li>
+                Price: ${{this.price}}
+            </li>
+            <li>
+                Category: {{this.category}}
+            </li>
+            <li>
+                Code: {{this.code}}
+            </li>
+            <li>
+                Stock: {{this.stock}}
+            </li>
+            <li>
+                Thumbnail: {{this.thumbnails}}
+            </li>
+
+        </ul>
+    {{/each}}
+</div>
+
+<script src="/socket.io/socket.io.min.js"></script>
+<script src="/js/home.js"></script>
