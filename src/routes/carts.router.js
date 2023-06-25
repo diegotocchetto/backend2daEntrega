@@ -118,10 +118,10 @@ routerCar.delete("/:cid/products/:pid", async (req, res) => {
 
 
 //segudna entrega 
-routerCar.delete("api/carts/:cid", async (req, res) => { 
+routerCar.delete("/:cid", async (req, res) => { 
     try {
       const idCart = req.params.cid;
-      const cart = await CartServiceartService.deleteCartById(idCart);
+      const cart = await Service.deleteCartById(idCart);
       return res.status(200).json({
         status: 'success',
         msg: 'Cart deleted',

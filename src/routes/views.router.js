@@ -17,7 +17,7 @@ res.render('index',{});
 //GET
 //Vista Products
 
-router.get('/products', async (req, res)=> {
+router.get('/', async (req, res)=> {
     try{
         console.log("llega al viws router")
         const { page, limit, sort, category, status }= req.query;
