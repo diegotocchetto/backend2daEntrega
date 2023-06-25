@@ -6,14 +6,11 @@ const productMan = new ProductManager();
 const manager = new ProductManager("./products.json");
 import { ProductService } from '../services/products.service.js';
 
-
-
 const Service = new ProductService();
 
 
 productsRouter.get('/', async (req, res) => {
   try {
-    console.log("llega al get router")
     const { limit } = req.query;
     const products = await Service.getAll(limit);
     return res.status(200).json({
