@@ -11,8 +11,8 @@ const Service = new ProductService();
 
 productsRouter.get('/', async (req, res) => {
   try {
-    const { limit } = req.query;
-    const products = await Service.getAll(limit);
+    const queryParams  = req.query;
+    const products = await Service.getAll(queryParams);
     return res.status(200).json({
       status: 'success',
       msg: 'products list',

@@ -51,20 +51,30 @@ routerCar.get('/:id', async (req, res) => {
         console.log(error)
     }
 })
-
-
-
+/*
+routerCar.post('/:cid/product/:pid', async (req, res) => {
+  try{
+      const {cid, pid} = req.params;
+      const cart = await Service.updateCart(cid, pid);
+      res.status(200).json(cart);
+  }catch (error){
+      res.status(404).json({error: error.message})
+  }
+});
+*/
 
 //UPDATE CART MONGO
 //PUT segunda entrega llega la cantidad por body
-routerCar.put('/:cid/products/:pid', async(req, res) =>{
+routerCar.put('/:cid/product/:pid', async(req, res) =>{
   try{
       const { cid, pid } = req.params
       const quantity = req.body.quantity
-     // console.log(quantity)
-      let cart = await Service.getCartById(cid)
+
+      let cart = await Service.getCartById(cid);
+     // console.log(cart)
       if (cart !== null) {
           let result = await Service.updateCart(cid, pid, quantity)
+          console.log(result)
           res.status(200).send({
               status: 'success',
               payload: result})

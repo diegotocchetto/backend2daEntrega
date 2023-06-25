@@ -14,6 +14,7 @@ export class CartService {
 
 async getCarts () {
     try {
+        console.log("llega al populate")
         return await CartModel.find().populate('products.product').lean()
     } catch (error) {
         return new Error(error)
@@ -39,22 +40,25 @@ async getCarts () {
 
 async updateCart(cid, pid, quantity) {
     try {
+       
+     
         const cart= await CartModel.findOne({_id: cid });
-       // console.log(cart)  
-        if (!cart) return {status: "error", message: "Cart not found"}
 
-        const productIndex = cart.products.findIndex(prod =>prod.product._id.toString()===pid)
-        if (productIndex===-1){
-            cart.products.push({product: pid, quantity}) //NO EXISTE
-        } else {
-            cart.products[productIndex].quantity+= quantity //YA EXISTE SUMO CANTIDAD
-        }
-        await cart.save();
-        return {status: "success", message: "Product added succesfully", productsQty:cart.products.length }
-    } catch (error) {
-        return {status: 'error', message: error}
+        if (!cart) return {status: "error", message: "Cart not found"}
+       const productIndex = cart.products.findIndex(prod =>prod._id.toString()===pid);
+
+       if (productIndex === -1) {
+        throw new Error('Product not found in cart');
     }
+    cart.products[productIndex].quantity = quantity;
+    await cart.save();
+    return cart;
+} catch (error) {
+    throw new Error('Error updating product quantity in cart');
 }
+}
+
+
 
 
 
@@ -62,10 +66,6 @@ async updateCart(cid, pid, quantity) {
 async replaceProductssInCart(cartId, newProds){ //reemplaza todos los productos del carrito por un array
     try {
         const cart = await CartModel.findById(cartId);
-       // cart = await getCartById(cartId);
-       console.log("llego")
-       console.log(cartId)
-       console.log(cart)
         cart.products = [];
         cart.products.push(newProds);
         cart.save();
