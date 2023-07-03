@@ -1,36 +1,45 @@
-//@ts-check
 import { Schema, model } from 'mongoose';
-import monsoosePaginate from 'mongoose-paginate-v2';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-const schema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-    max: 100,
-  },
-  lastName: {
-    type: String,
-    required: true,
-    max: 100,
-  },
-  email: {
-    type: String,
-    required: true,
-    max: 100,
-    unique: true,
-  },
+const usersSchema = new Schema({
+    firstName: {
+        type: String,
+        required: true,
+        max: 100,
+    },
+    lastName: {
+        type: String,
+        required: false,
+        max: 100,
+    },
+    age: {
+        type: Number,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        max: 100,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: false,
+        max: 100,
+    },
+    cartId: {
+        type: Schema.Types.ObjectId,
+        ref: 'carts'
+    },
+    role: {
+        type: String,
+        default: 'user',
+    },
+    }, { 
+        versionKey: false 
+    }
+);
 
-  password: {
-    type: String,
-    required: true,
-    max: 100,
-  },
+usersSchema.plugin(mongoosePaginate);
 
-  isAdmin: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-});
-schema.plugin(monsoosePaginate);
-export const UserModel = model('users', schema);
+export const UserModel = model('users', usersSchema);

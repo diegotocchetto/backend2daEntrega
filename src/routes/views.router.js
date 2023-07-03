@@ -17,9 +17,8 @@ res.render('index',{});
 //GET
 //Vista Products
 
-router.get('/', async (req, res)=> {
+router.get('/products', async (req, res)=> {
     try{
-        console.log("llega al viws router")
         const { page, limit, sort, category, status }= req.query;
         const queryResult = await Service.getAll(page, limit, sort, category, status);
         const {docs, ...paginationInfo} = queryResult;
@@ -47,14 +46,15 @@ router.get('/', async (req, res)=> {
             hasNextPage: paginationInfo.hasNextPage,
         };
         const prevPage = parseInt(page) - 1;
-        response.hasPrevPage ? response.prevLink = `localhost:8080/products/?page=${prevPage}&limit=${limit}&sort=${sort}&category=${category}&status=${status}` : response.prevLink = null;
+        response.hasPrevPage ? response.prevLink = `/products/?page=${prevPage}&limit=${limit}&sort=${sort}&category=${category}&status=${status}` : response.prevLink = null;
         const nextPage = parseInt(page) + 1;
-        response.hasNextPage ? response.nextLink = `localhost:8080/products/?page=${nextPage}&limit=${limit}&sort=${sort}&category=${category}&status=${status}` : response.nextLink = null;
+        response.hasNextPage ? response.nextLink = `/products/?page=${nextPage}&limit=${limit}&sort=${sort}&category=${category}&status=${status}` : response.nextLink = null;
         if (parseInt(page) > paginationInfo.totalPages || parseInt(page) < 1) {
             throw new Error('La página solicitada no existe');
         }
-        const nextPageUrl = `/?page=${nextPage}&limit=${limit}&sort=${sort}&category=${category}&status=${status}`;
-        res.render('products', {prods, paginationInfo, nextPageUrl, sort, category, status})
+        const user = req.session.user;
+        console.log(user);
+        res.render('products', {prods, paginationInfo, sort, category, status, user})
         console.log(response);
     } catch(error) {
         console.error(error);
@@ -64,7 +64,6 @@ router.get('/', async (req, res)=> {
         });
     }
 })
-
 
 //vista del carro segunda entrega// problema en carga desde e explorador preguntar a tutor
 router.get('/carts/:cid',  async (req, res) => {

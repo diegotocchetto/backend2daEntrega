@@ -29,9 +29,11 @@ usersRouter.get("/", async (req, res) => {
 
 usersRouter.post('/', async (req, res) => {
     try {
-      const { firstName, lastName, email } = req.body;
+      const { firstName, lastName, email, age, cartId} = req.body;
+      console.log(firstName);
+      console.log(age);
       //const userCreated = await UserModel.create({firstName, lastName, email});
-      const userCreated = await Service.createOne(firstName, lastName, email);
+      const userCreated = await Service.createOne(firstName, lastName, email, age, cartId);
       return res.status(201).json({
         status: 'success',
         msg: 'user created',
@@ -71,17 +73,17 @@ usersRouter.post('/', async (req, res) => {
   usersRouter.put('/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const { firstName, lastName, email } = req.body;
+      const { firstName, lastName, email , age, cartId} = req.body;
   
       // const userUptaded = await UserModel.updateOne(
       //   { _id: id },
       //   { firstName, lastName, email }
       // );  
-      const userUptaded = await Service.updateOne(id, firstName, lastName, email);  
+      const userUptaded = await Service.updateOne(id, firstName, lastName, email, age, cartId);  
       return res.status(201).json({
         status: 'success',
         msg: 'user uptaded',
-        data: { _id: id, firstName, lastName, email },
+        data: { _id: id, firstName, lastName, email , age, cartId},
       });
     } catch (e) {
       console.log(e);

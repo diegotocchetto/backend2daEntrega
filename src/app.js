@@ -49,7 +49,6 @@ app.use('/static',express.static('./src/public'));
 app.use('/api/carts', routerCar);
 app.use('/api/products', productRouter);
 app.use("/", realTimeRouter)
-app.use('/api/sessions', authRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/auth', authRouter);
 
@@ -62,7 +61,8 @@ app.use(express.static(__dirname+'/public'));
 app.use('/chat',ChatRouter);
 app.use('/products', viewsRouter); //voy  aseparr os routeers
 app.use('/carts/:cid', viewsRouter);
-//app.use('/', viewsRouter);
+app.use('/', viewsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 
 app.get("*"), (req, res, next) => {

@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import { isAdmin, isUser } from '../middlewares/auth.js';
 
+
 export const authRouter = express.Router();
 
 authRouter.get('/session', (req, res) => {

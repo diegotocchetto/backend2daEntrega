@@ -1,40 +1,48 @@
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="/css/products.css" />
-  </head>
-  <body>
-    <div>
-        <h1>Bienvenido</h1>
-
+<div class="row product justify-content-evenly">
+  {{#if user}}
+    <h1 style="padding-left: 30px; padding-top: 30px">
+      BIENVENIDO {{user.first_name}}
+      <a style="font-size:medium" href="http://localhost:8080/auth/perfil">Mi perfil</a>
+      <a style="font-size:medium" href="http://localhost:8080/auth/logout">Cerrar sesión</a>
+      <a style="font-size:medium" href="http://localhost:8080/carts/{{user.cartId}}">Mi carrito</a>
+      <p>CartId: {{user.cartId}}</p>
+    </h1>
+  {{else}}
+    <h1 style="padding-left: 30px; padding-top: 30px">
+      BIENVENIDO 
+      <a style="font-size:medium" href="http://localhost:8080/auth/login">Iniciar sesión</a>
+    </h1>
+  {{/if}}
+  <div style="display: flex; justify-content: space-between; padding: 30px">
+      <h2>LISTADO DE PRODUCTOS</h2>
+      <div> ORDENAR
+        <a href="?page=1&limit={{paginationInfo.limit}}&sort=asc&category={{category}}&status={{status}}">&#8593;</a>
+        <a href="?page=1&limit={{paginationInfo.limit}}&sort=desc&category={{category}}&status={{status}}">&#8595;</a>
+      </div>
+  </div>
+    {{#each prods}}
+    <div class="card product__container" style="width: 14rem; margin-top: 5px;">
+        <div style="margin-top: 10px; width:200px; height:200px;">
+            <img src={{this.thumbnail}} class="card-img-top" alt="foto de Product {{this.id}}">
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">{{this.title}}</h3>
+            <p class="card-text">{{this.description}}</p>
+            <p class="card-text">$ {{this.price}}</p>
+            <button onclick="addToCart('{{user.cartId}}', '{{this.id}}')" class="btn btn-primary">Agregar al carrito</button>
+        </div>
     </div>
-    <div class='item-list'>
-        {{#each prods}}
-            <div class='item' id="item">
-            <div class='img-container'>
-                <img src={{this.thumbnail}} alt={{this.title}} />
-            </div>
-            <div class='item-body'>
-                <h5 class='item-title'>{{this.title}}</h5>
-                <p class='item-text'>${{this.price}}</p>
-                <a class='button-item' href="/api/product/{{this._id}}">Ver producto</a>
-                alert(this._id)
-                <a class='button-item' onclick="addToCart('{{this._id}}')">Agregar al carrito</a>
-            </div>
-            </div>
-        {{/each}}
-    </div>
-
-    <div class="pagination">
-        {{#if prevLink}}
-            <a href="{{prevLink}}">&laquo;</a>
-        {{/if}}
-        {{#if currentPage}}
-            <a>{{currentPage}}</a>
-        {{/if}}
-        {{#if nextLink}}
-            <a href="{{nextLink}}">&raquo;</a>
-        {{/if}}
-    </div>
-  </body>
-  <script src="/js/products.js"></script>
-</html>
+    {{/each}}
+</div>
+<div style="display: flex; justify-content: center; margin-top: 30px">
+  <div class="pagination">
+    {{#if paginationInfo.hasPrevPage}}
+    <a href="?page={{paginationInfo.prevPage}}&limit={{paginationInfo.limit}}&sort={{sort}}&category={{category}}&status={{status}}">&lt; Anterior</a>
+    {{/if}}
+    <span style="margin-left: 20px; margin-right: 20px">Página {{paginationInfo.page}} de {{paginationInfo.totalPages}}</span>
+    {{#if paginationInfo.hasNextPage}}
+    <a href="?page={{paginationInfo.nextPage}}&limit={{paginationInfo.limit}}&sort={{sort}}&category={{category}}&status={{status}}">Siguiente &gt;</a>
+    {{/if}}
+  </div>
+</div>
+<script src="/js/products.js"></script>
