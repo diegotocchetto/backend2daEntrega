@@ -28,7 +28,7 @@ const httpServer =app.listen(port, () => {
 app.use(
     session({
       store: MongoStore.create({ mongoUrl: "mongodb+srv://diegotocchetto:Gd57QCtu8yQIW4Sh@ecommerce.jwxstie.mongodb.net/backend?retryWrites=true&w=majority", ttl: 7200 }),
-      secret: 'un-re-secreto',
+      secret: 'secret',
       resave: true,
       saveUninitialized: true,
     })
@@ -51,6 +51,9 @@ app.use('/api/products', productRouter);
 app.use("/", realTimeRouter)
 app.use('/api/sessions', sessionsRouter);
 app.use('/auth', authRouter);
+app.use("/api/users", usersRouter);
+
+
 
 // Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -64,10 +67,22 @@ app.use('/carts/:cid', viewsRouter);
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 
-
-app.get("*"), (req, res, next) => {
-    res.status(404).json({status: "error", msg: "Page you are loking Not Found", data: {} })
-}
+/*
+app.get(
+  "/lugar-super-misterioso-y-secreto-donde-se-guardan-cosas-muy-importantes",
+  checkAdmin,
+  (req, res) => {
+    return res.send("Hello admin");
+  }
+);
+*/
+app.get("*", (req, res) => {
+  return res.status(404).json({
+    status: "Error",
+    msg: "Route no found",
+    data: {},
+  });
+});
 
 
 

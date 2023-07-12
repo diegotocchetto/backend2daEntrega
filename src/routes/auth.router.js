@@ -17,10 +17,9 @@ authRouter.post('/register', passport.authenticate('register', { failureRedirect
   if (!req.user) {
     return res.json({ error: 'something went wrong' });
   }
-  console.log("llego")
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
-
-  return res.json({ msg: 'ok', payload: req.user });
+  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName,email: req.user.email,cartId: req.user.cartId, isAdmin: req.user.isAdmin };
+  return res.redirect('/products');
+ // return res.json({ msg: 'ok', payload: req.user });
 });
 
 authRouter.get('/failregister', async (req, res) => {
@@ -35,9 +34,9 @@ authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/au
   if (!req.user) {
     return res.json({ error: 'invalid credentials' });
   }
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
+  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName,email: req.user.email,cartId: req.user.cartId, isAdmin: req.user.isAdmin };
 
-  return res.json({ msg: 'ok', payload: req.user });
+  return res.redirect('/products');
 });
 
 authRouter.get('/faillogin', async (req, res) => {
@@ -53,8 +52,8 @@ authRouter.get('/logout', (req, res) => {
   });
 });
 
-authRouter.get('/perfil', isUser, (req, res) => {
-  const user = req.session.user;
+authRouter.get('/profile', isUser, (req, res) => {
+  const user = {email: req.session.email, isAdmin: req.session.isAdmin};
   return res.render('perfil', { user: user });
 });
 

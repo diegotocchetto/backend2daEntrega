@@ -59,12 +59,9 @@ export function iniPassport() {
             cartId: cartId
           };
           let userCreated = await UserModel.create(newUser);
-          console.log(userCreated);
-          console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (e) {
-          console.log('Error in register');
-          console.log(e);
+
           return done(e);
         }
       }
@@ -108,15 +105,11 @@ export function iniPassport() {
                         password: profile.password || '',
                     };
                     let userCreated = await UserModel.create(newUser);
-                    console.log('User Registration succesful');
                     return done(null, userCreated);
                 } else {
-                    console.log('User already exists');
                     return done(null, user);
                 }
             } catch (e) {
-                console.log('Error en auth github');
-                console.log(e);
                 return done(e);
             }
         }

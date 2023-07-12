@@ -14,7 +14,7 @@ const usersSchema = new Schema({
     },
     age: {
         type: Number,
-        required: true,
+        required: false,
     },
     email: {
         type: String,
@@ -33,6 +33,7 @@ const usersSchema = new Schema({
     },
     role: {
         type: String,
+        required: true,
         default: 'user',
     },
     }, { 

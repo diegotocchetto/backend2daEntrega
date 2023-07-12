@@ -3,7 +3,6 @@ import { UserModel } from '../DAO/models/users.model.js';
 export class UserService {
   validateUser(firstName, lastName, email, age,cartId) {
     if (!firstName || !lastName || !email || !age || !cartId) {
-      console.log('validation error: please complete firstName, lastname and email.');
       throw new Error('validation error: please complete firstName, lastname and email.');
     }
   }
@@ -13,10 +12,29 @@ export class UserService {
     return users;
   }
 
+
+  async findUserByEmail(email) {
+    const user = await UserModel.findOne(
+      { email: email },
+      {
+        _id: true,
+        email: true,
+        firstName: true,
+        password: true,
+        rol: true,
+      }
+    );
+    return user || false;
+  }
+
+
   async createOne(firstName, lastName, email, age, cartId) {
-    console.log(firstName);
-    console.log(age);
+
     this.validateUser(firstName, lastName, email,age, cartId);
+    const existUser = await Service.findUserByEmail(email);
+    if(existUser){
+      return false;
+   }
     const userCreated = await UserModel.create({ firstName, lastName, email, age, cartId });
     return userCreated;
   }

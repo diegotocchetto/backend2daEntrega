@@ -15,7 +15,7 @@
   {{/if}}
   <div style="display: flex; justify-content: space-between; padding: 30px">
       <h2>LISTADO DE PRODUCTOS</h2>
-      <div> ORDENAR
+      <div> Order
         <a href="?page=1&limit={{paginationInfo.limit}}&sort=asc&category={{category}}&status={{status}}">&#8593;</a>
         <a href="?page=1&limit={{paginationInfo.limit}}&sort=desc&category={{category}}&status={{status}}">&#8595;</a>
       </div>
@@ -29,7 +29,7 @@
             <h3 class="card-title">{{this.title}}</h3>
             <p class="card-text">{{this.description}}</p>
             <p class="card-text">$ {{this.price}}</p>
-            <button onclick="addToCart('{{user.cartId}}', '{{this.id}}')" class="btn btn-primary">Agregar al carrito</button>
+            <button onclick="addToCart('{{this.id}}')" class="btn btn-primary">Agregar al carrito</button>
         </div>
     </div>
     {{/each}}

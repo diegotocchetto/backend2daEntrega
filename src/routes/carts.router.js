@@ -10,7 +10,6 @@ const Service = new CartService();
 //GET CART MONGO
 routerCar.get('/:id', async (req, res) => {
     try {
-      console.log("llega");
       const { id } = req.params;
       const carts = await Service.getCartById(id);
       return res.status(200).json({
@@ -19,7 +18,6 @@ routerCar.get('/:id', async (req, res) => {
         data: carts,
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: 'error',
         msg: 'something went wrong :(',

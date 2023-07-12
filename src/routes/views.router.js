@@ -55,7 +55,7 @@ router.get('/products', async (req, res)=> {
         const user = req.session.user;
         console.log(user);
         res.render('products', {prods, paginationInfo, sort, category, status, user})
-        console.log(response);
+       
     } catch(error) {
         console.error(error);
         return res.status(400).json({

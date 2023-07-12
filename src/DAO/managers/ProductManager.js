@@ -40,7 +40,6 @@ class ProductManager {
     if (this.products.some((item) => item.code === product.code)) {
       return { status: "error", message: 'Product already exists ' };
     }
-    console.log(product)
     if (
      
       !product.title ||

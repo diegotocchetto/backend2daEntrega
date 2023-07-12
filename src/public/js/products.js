@@ -1,8 +1,10 @@
-function addToCart(cartId, productId) {
-    alert('Entró en addToCart con carrito harcodeado por ahora');
-    cartId = '64938316e83c4003ad1730ab'; // ID del carrito harcodeado x ahora // getCookie('cartId');
-    console.log(cartId);
+function addToCart(productId) {
+   
+ //   cartId = '64938316e83c4003ad1730ab'; // ID del carrito harcodeado 
+ window.location.href = 'http://localhost:8080/auth/login';
     console.log(productId);
+    console.log (req.session.user)
+    const  caridx=localStorage.getItem('cartId'); 
     fetch(`/api/carts/${cartId}/products/${productId}`, {
       method: 'POST',
       headers: {

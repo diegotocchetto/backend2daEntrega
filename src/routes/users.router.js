@@ -30,15 +30,21 @@ usersRouter.get("/", async (req, res) => {
 usersRouter.post('/', async (req, res) => {
     try {
       const { firstName, lastName, email, age, cartId} = req.body;
-      console.log(firstName);
-      console.log(age);
-      //const userCreated = await UserModel.create({firstName, lastName, email});
+      const existUser = await Service.findUserByEmail(email);
+      if(existUser){
+        return res.status(401).json({
+          status: 'error',
+          msg: 'user exists'
+        });
+      }else
+      {
       const userCreated = await Service.createOne(firstName, lastName, email, age, cartId);
       return res.status(201).json({
         status: 'success',
         msg: 'user created',
         data: userCreated,
       });
+    }
     } catch (e) {
       console.log(e);
       return res.status(500).json({
