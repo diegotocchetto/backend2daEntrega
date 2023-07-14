@@ -10,6 +10,7 @@ const Service = new CartService();
 //GET CART MONGO
 routerCar.get('/:id', async (req, res) => {
     try {
+      console.log("llega");
       const { id } = req.params;
       const carts = await Service.getCartById(id);
       return res.status(200).json({
@@ -18,6 +19,7 @@ routerCar.get('/:id', async (req, res) => {
         data: carts,
       });
     } catch (e) {
+      console.log(e);
       return res.status(500).json({
         status: 'error',
         msg: 'something went wrong :(',
@@ -49,6 +51,8 @@ routerCar.get('/:id', async (req, res) => {
         console.log(error)
     }
 })
+
+
 /*
 routerCar.post('/:cid/product/:pid', async (req, res) => {
   try{
@@ -65,14 +69,20 @@ routerCar.post('/:cid/product/:pid', async (req, res) => {
 //PUT segunda entrega llega la cantidad por body
 routerCar.put('/:cid/product/:pid', async(req, res) =>{
   try{
-      const { cid, pid } = req.params
-      const quantity = req.body.quantity
+    console.log("llega y el i del carro es")
 
+      const { cid, pid } = req.params
+      console.log(cid)
+      const quantity = req.body.quantity
+      console.log("llega2")
       let cart = await Service.getCartById(cid);
-     // console.log(cart)
+      console.log("llega3")
+      console.log(cart)
       if (cart !== null) {
+        console.log("va para el service")
           let result = await Service.updateCart(cid, pid, quantity)
-          console.log(result)
+          console.log("salio del el service")
+        //  console.log(result)
           res.status(200).send({
               status: 'success',
               payload: result})
@@ -143,5 +153,17 @@ routerCar.delete("/:cid", async (req, res) => {
       });
     }
     });
+
+
+    routerCar.post('/:cid/product/:pid', async (req, res) => {
+      try{
+          const {cid, pid} = req.params;
+          const cart = await Service.addProductToCart(cid, pid);
+          res.status(200).json(cart);
+      }catch (error){
+          res.status(404).json({error: error.message})
+      }
+  });
+  
 
 export default routerCar;

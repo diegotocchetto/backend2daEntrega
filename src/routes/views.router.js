@@ -9,10 +9,7 @@ export  const router = express.Router();
 const Service= new ProductService();
 const ServiceCart= new CartService();
 
-/*router.get('/',(req,res)=>{
-res.render('index',{});
-})
-*/
+
 
 //GET
 //Vista Products
@@ -53,8 +50,9 @@ router.get('/products', async (req, res)=> {
             throw new Error('La página solicitada no existe');
         }
         const user = req.session.user;
+        const userCartId=req.session.user.cartId;
         console.log(user);
-        res.render('products', {prods, paginationInfo, sort, category, status, user})
+        res.render('products', {prods, paginationInfo, sort, category, status, user,userCartId})
        
     } catch(error) {
         console.error(error);
