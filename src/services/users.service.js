@@ -1,8 +1,8 @@
 import { UserModel } from '../DAO/models/users.model.js';
 
 export class UserService {
-  validateUser(firstName, lastName, email, age,cartId) {
-    if (!firstName || !lastName || !email || !age || !cartId) {
+  validateUser(firstName, lastName, email, age) {
+    if (!firstName || !lastName || !email || !age) {
       throw new Error('validation error: please complete firstName, lastname and email.');
     }
   }
@@ -28,26 +28,34 @@ export class UserService {
   }
 
 
-  async createOne(firstName, lastName, email, age, cartId) {
+  async createOne(firstName, lastName, email, age) {
 
-    this.validateUser(firstName, lastName, email,age, cartId);
-    const existUser = await Service.findUserByEmail(email);
+    this.validateUser(firstName, lastName, email,age);
+    const existUser = await this.findUserByEmail(email);
     if(existUser){
-      return false;
+      throw ("user already exist")
    }
-    const userCreated = await UserModel.create({ firstName, lastName, email, age, cartId });
+   //agregar crear carrito
+   const role="user";
+   const cartId="64baa345205099bd1de3b646";
+   console.log("quiere agregarlo")
+    const userCreated = await UserModel.create({ firstName, lastName, email, age,role, cartId });
     return userCreated;
   }
 
-  async deletedOne(_id) {
-    const deleted = await UserModel.deleteOne({ _id: _id });
+  async deleteOne(uid) {
+    const deleted = await UserModel.deleteOne({ _id: uid });
     return deleted;
   }
 
-  async updateOne(_id, firstName, lastName, email, age, cartId) {
-    if (!_id) throw new Error('invalid _id');
-    this.validateUser(firstName, lastName, email, age, cartId);
-    const userUptaded = await UserModel.updateOne({ _id: id }, { firstName, lastName, email , age, cartId});
+  async updateOne(uid, firstName, lastName, email, age) {
+    console.log(uid)
+    console.log("llega al user service")
+    if (!uid) throw new Error('invalid _id');
+    const prouctExist= await UserModel.findOne({uid});
+    console.log("pasa el buscar user")
+    this.validateUser(firstName, lastName, email, age);
+    const userUptaded = await UserModel.updateOne({ _id: uid }, { firstName, lastName, email , age});
     return userUptaded;
   }
 }

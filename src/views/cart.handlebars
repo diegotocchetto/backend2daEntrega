@@ -1,14 +1,42 @@
-<div>
-    <div>
-        <p><b>Cart ID: {{this._id}}</b></p>     
-        {{#each products}}
-            <p><b>Product:</b> {{productID.title}}</p>
-            <p><b>Description: </b>{{productID.description}}</p>
-            <p><b>Code: </b>{{productID.code}}</p>
-            <p><b>Price: </b>{{productID.price}} &nbsp; <b>Stock: </b>{{productID.stock}}</p>
-            <p><b>Quantity: </b>{{quantity}}</p>
-            <hr>
-        {{/each}} 
-    </div>
-    <br/>
+
+
+
+
+<div class="buttons">
+  <a
+    class="button is-info"
+    onclick="backToHome()"
+    style="margin-top: 20px; margin-left: 10px;"
+  >
+    <strong>Back to Home</strong>
+  </a>
 </div>
+<section class="mt-6">
+          <h2>MY CART</h2>
+  <div class="container is-flex is-flex-wrap-wrap" id="products-container">
+
+    {{#each cart}}
+
+      <div class="card" style="width: 250px; margin: 20px">
+        <div class="card-image" style="padding: 15px">
+          <figure class="image is-4by3">
+            <img src="{{this.thumbnail}}" alt="Placeholder image" />
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+                <div class="card-body">
+              <p class="title is-6">Cantidad: {{this.quantity}}</p>
+              <p class="title is-6">Titulo: {{this.title}}</p>
+              <p class="title is-4">Descripcion: {{this.description}}</p>
+              <p class="subtitle is-6">Precio: {{this.price}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</section>
+
+<script src="/js/cartDetail.js"></script>

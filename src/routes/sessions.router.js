@@ -1,20 +1,11 @@
-import passport from 'passport';
 import express from 'express';
+import passport from'passport';
 export const sessionsRouter = express.Router();
+import sessionsController from '../controllers/sessions.controller.js';
 
-sessionsRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+sessionsRouter.get('/login/github', sessionsController.renderGitHubLogin);
+sessionsRouter.get('/githubcallback', sessionsController.handleGitHubCallback);
+sessionsRouter.get('/show', sessionsController.renderSessionView);
+sessionsRouter.get('/current', sessionsController.getCurrentUser);
 
-sessionsRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-    req.session.user = req.user;
-    // Successful authentication, redirect home.
-    res.redirect('/products');
-});
-
-sessionsRouter.get('/show', (req, res) => {
-    return res.send(JSON.stringify(req.session));
-});
-
-sessionsRouter.get("/current", (req, res) => {
-  console.log(req.session);
-  return res.status(200).json({ user: req.session.user });
-});
+export default sessionsRouter;

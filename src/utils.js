@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 //MULTER
 import multer from 'multer';
 const storage = multer.diskStorage({
@@ -27,7 +29,7 @@ import { connect } from "mongoose";
 export async function connectMongo() {
     try {
       await connect(
-        "mongodb+srv://diegotocchetto:Gd57QCtu8yQIW4Sh@ecommerce.jwxstie.mongodb.net/backend?retryWrites=true&w=majority"
+        process.env.MONGOURL
       );
       console.log("pluged to mongoCloud!");
     } catch (e) {

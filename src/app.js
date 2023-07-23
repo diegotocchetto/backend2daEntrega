@@ -13,12 +13,13 @@ import { __dirname, connectMongo,connectSocket} from './utils.js';
 import { iniPassport } from './config/passport.config.js';
 import ChatRouter from './routes/chat.router.js';
 import { usersRouter } from './routes/users.router.js';
+import 'dotenv/config'
 
 
 
 //EXPRESS
 const app = express();
-const port=8080;
+const port=process.env.PORT;
 const httpServer =app.listen(port, () => {
     console.log("Conected to http://localhost:"+ port);
 });
@@ -27,7 +28,7 @@ const httpServer =app.listen(port, () => {
 //--------------------- SESSION ---------------------//
 app.use(
     session({
-      store: MongoStore.create({ mongoUrl: "mongodb+srv://diegotocchetto:Gd57QCtu8yQIW4Sh@ecommerce.jwxstie.mongodb.net/backend?retryWrites=true&w=majority", ttl: 7200 }),
+      store: MongoStore.create({ mongoUrl: process.env.MONGOURL, ttl: 7200 }),
       secret: 'secret',
       resave: true,
       saveUninitialized: true,
@@ -60,28 +61,23 @@ app.engine("handlebars", handlebars.engine());
 app.set("views",__dirname+ "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname+'/public'));
-//app.use('/home',viewsRouter);
 app.use('/chat',ChatRouter);
 app.use('/products', viewsRouter); //voy  aseparr os routeers
 app.use('/carts/:cid', viewsRouter);
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 
-/*
-app.get(
-  "/lugar-super-misterioso-y-secreto-donde-se-guardan-cosas-muy-importantes",
-  checkAdmin,
-  (req, res) => {
-    return res.send("Hello admin");
-  }
-);
-*/
-app.get("*", (req, res) => {
-  return res.status(404).json({
-    status: "Error",
-    msg: "Route no found",
-    data: {},
-  });
+
+
+// redirect to /home
+app.get("/", (req, res) => {
+  res.redirect("/products");
+});
+
+ 
+//not found
+app.use("*", (req, res, next) => {
+  res.render("notfound");
 });
 
 

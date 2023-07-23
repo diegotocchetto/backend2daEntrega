@@ -113,7 +113,7 @@ socket.on('server:productAdd', (newData) => {
         return {status: 'error', errorMess}
     }
     let list
-    newData.forEach(({id, title, price, code, stock, category, description, thumbnail}) => {
+    newData.forEach(({id, title, price, code, stock, category, description, thumbnail}) => { 
         list +=`
         <tr>
         <td>${title}</td>

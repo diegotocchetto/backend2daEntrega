@@ -1,62 +1,22 @@
 import express from 'express';
-import passport from 'passport';
-import { isAdmin, isUser } from '../middlewares/auth.js';
-
-
 export const authRouter = express.Router();
+import { isUser, isAdmin } from "../middlewares/auth.js";
+import passport from 'passport';
+import authController from '../controllers/auth.controller.js';
 
-authRouter.get('/session', (req, res) => {
-  return res.send(JSON.stringify(req.session));
-});
+authRouter.get('/session', authController.renderSessionView);
+authRouter.get('/login', authController.renderLoginView);
+authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }), authController.handleLogin);
+authRouter.get('/faillogin', authController.renderFailLoginView);
+authRouter.get('/register', authController.renderRegisterView);
+authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), authController.handleRegister);
+authRouter.get('/failregister', authController.renderFailRegisterView);
+authRouter.get('/products', authController.renderProductsView);
+authRouter.get('/profile', isUser, authController.renderProfileView);
+authRouter.get('/logout', authController.handleLogout);
+authRouter.get('/administration', isUser, isAdmin, authController.renderAdministrationView);
+authRouter.get('/current', isUser, isAdmin, authController.renderAdministrationView);
+authRouter.get( "/github",passport.authenticate("github", { scope: ["user:email"] })
+);
 
-authRouter.get('/register', (req, res) => {
-  return res.render('register', {});
-});
-
-authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), (req, res) => {
-  if (!req.user) {
-    return res.json({ error: 'something went wrong' });
-  }
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName,email: req.user.email,cartId: req.user.cartId, isAdmin: req.user.isAdmin };
-  return res.redirect('/products');
- // return res.json({ msg: 'ok', payload: req.user });
-});
-
-authRouter.get('/failregister', async (req, res) => {
-  return res.json({ error: 'fail to register' });
-});
-
-authRouter.get('/login', (req, res) => {
-  return res.render('login', {});
-});
-
-authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }), async (req, res) => {
-  if (!req.user) {
-    return res.json({ error: 'invalid credentials' });
-  }
-  req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName,email: req.user.email,cartId: req.user.cartId, isAdmin: req.user.isAdmin };
-
-  return res.redirect('/products');
-});
-
-authRouter.get('/faillogin', async (req, res) => {
-  return res.json({ error: 'fail to login' });
-});
-
-authRouter.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).render('error', { error: 'no se pudo cerrar su session' });
-    }
-    return res.redirect('/auth/login');
-  });
-});
-
-authRouter.get('/profile', isUser, (req, res) => {
-  const user = {email: req.session.email, isAdmin: req.session.isAdmin};
-  return res.render('perfil', { user: user });
-});
-
-authRouter.get('/administracion', isUser, isAdmin, (req, res) => {
-  return res.send('datos super secretos clasificados sobre los nuevos ingresos a boca juniors');
-});
+export default authRouter;

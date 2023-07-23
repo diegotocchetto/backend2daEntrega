@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:8080/api";
+alert(productId)
 function addToCart (productId) {
    
     
@@ -15,13 +16,45 @@ function addToCart (productId) {
     .then((response) => response.json())
     .then((res) => {
         console.log(res);
-        alert("added");
+        Swal.fire({
+          title: 'Product added to cart',
+          timer: 5000,
+          icon: 'success'
+      })
     })
     .catch((error) => {
         console.error("Error:", error);
         alert(JSON.stringify(error));
     });
 }
+
+function deleteProduct (productId) {
+   
+    
+  const url = API_URL + "/carts/" + cartIdHtml + "/products/" + productId;
+  const data = {};
+  const options = {
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+  };
+  fetch(url, options)
+  .then((response) => response.json())
+  .then((res) => {
+      Swal.fire({
+        title: 'Product removed from cart',
+        timer: 5000,
+        icon: 'success'
+    })
+  })
+  .catch((error) => {
+      console.error("Error:", error);
+      alert(JSON.stringify(error));
+  });
+}
+
 
   function getCookie(name) {
     const cookieString = document.cookie;

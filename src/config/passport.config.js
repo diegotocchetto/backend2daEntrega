@@ -5,8 +5,9 @@ import { UserModel } from '../DAO/models/users.model.js';
 const LocalStrategy = local.Strategy;
 import {CartService} from '../services/carts.service.js';
 import GithubStrategy from 'passport-github2';
+import 'dotenv/config'
 
-const Service = new CartService();
+const cartService = new CartService();
 
 export function iniPassport() {
   passport.use(
@@ -41,11 +42,10 @@ export function iniPassport() {
         try {
           const {firstName, lastName, email, age } = req.body;
           console.log(firstName)
-          const cart = await Service.createCart();
+          const cart = await cartService.createOne();
           const cartId = cart._id;
           let user = await UserModel.findOne({ email: username });
           if (user) {
-            console.log('User already exists');
             return done(null, false);
           }
 
@@ -73,9 +73,9 @@ export function iniPassport() {
     'github',
     new GithubStrategy(
         {
-            clientID: 'Iv1.00b0eae791cb11d9',
-            clientSecret: '645a9a046713ff6386e018cfb92e8353fd58eaba',
-            callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
+            clientID: process.env.clientID,
+            clientSecret: process.env.clientSecret,
+            callbackURL: process.env.callbackURL,
         },
         async (accessToken, _, profile, done) => {
             console.log(profile);
@@ -97,16 +97,22 @@ export function iniPassport() {
 
                 let user = await UserModel.findOne({ email: profile.email });
                 if (!user) {
+                  const cart = await cartService.createOne();
+                  const cartId = cart._id;
                     const newUser = {
                         email: profile.email,
                         firstName: profile._json.name || profile._json.login || 'noname',
                         lastName: 'nolast',
                         isAdmin: false,
+                        cartId: cartId,
                         password: profile.password || '',
                     };
+                    console.log("login github")
+                    console.log(newUser)
                     let userCreated = await UserModel.create(newUser);
                     return done(null, userCreated);
                 } else {
+
                     return done(null, user);
                 }
             } catch (e) {
