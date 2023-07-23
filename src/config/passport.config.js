@@ -41,7 +41,6 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const {firstName, lastName, email, age } = req.body;
-          console.log(firstName)
           const cart = await cartService.createOne();
           const cartId = cart._id;
           let user = await UserModel.findOne({ email: username });
@@ -78,7 +77,7 @@ export function iniPassport() {
             callbackURL: process.env.callbackURL,
         },
         async (accessToken, _, profile, done) => {
-            console.log(profile);
+       
             try {
                 const res = await fetch('https://api.github.com/user/emails', {
                     headers: {
@@ -108,7 +107,6 @@ export function iniPassport() {
                         password: profile.password || '',
                     };
                     console.log("login github")
-                    console.log(newUser)
                     let userCreated = await UserModel.create(newUser);
                     return done(null, userCreated);
                 } else {

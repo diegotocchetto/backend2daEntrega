@@ -38,7 +38,6 @@ export class UserService {
    //agregar crear carrito
    const role="user";
    const cartId="64baa345205099bd1de3b646";
-   console.log("quiere agregarlo")
     const userCreated = await UserModel.create({ firstName, lastName, email, age,role, cartId });
     return userCreated;
   }
@@ -49,11 +48,8 @@ export class UserService {
   }
 
   async updateOne(uid, firstName, lastName, email, age) {
-    console.log(uid)
-    console.log("llega al user service")
     if (!uid) throw new Error('invalid _id');
     const prouctExist= await UserModel.findOne({uid});
-    console.log("pasa el buscar user")
     this.validateUser(firstName, lastName, email, age);
     const userUptaded = await UserModel.updateOne({ _id: uid }, { firstName, lastName, email , age});
     return userUptaded;

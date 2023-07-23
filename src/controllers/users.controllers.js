@@ -20,7 +20,6 @@ export class UserController {
     async findUserByEmail(req, res) {
         try {
             const { pid } = req.params;
-            console.log (pid)
             const product = await userService.findUserByEmail(pid);
             return res.status(200).json({
                 status: 'success',
@@ -39,17 +38,14 @@ export class UserController {
     
     async createUser(req, res) {
         try {
-            console.log("llega al controler create")
             const { firstName, lastName, email, age} = req.body;
             const userCreated = await userService.createOne(firstName, lastName, email, age);
-            console.log("sale del usercreated al controler create")
             return res.status(201).json({
                 status: 'success',
                 msg: 'user created',
                 data: userCreated,
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :( ' ,
@@ -62,8 +58,6 @@ export class UserController {
         try {
           const { uid } = req.params;
           const { firstName, lastName, email,age} = req.body;
-          console.log(uid)
-          console.log("llega al user controler")
           const productUpdated= await userService.updateOne( {_id: uid}, firstName, lastName,email,age);
           return res.status(201).json({
             status: 'success',
@@ -71,7 +65,6 @@ export class UserController {
             data: {productUpdated},
           });
         } catch (e) {
-          console.log(e);
           return res.status(500).json({
             status: 'error',
             msg: 'something went wrong :(',

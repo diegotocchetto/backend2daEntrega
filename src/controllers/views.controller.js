@@ -4,19 +4,7 @@ const productService = new ProductService();
 const viewsService = new ViewsService();
 
  class ViewsController {
-   /*
-    async getHome(req, res) {
-        try {
-            const { limit = 10, page = 1, sort, query } = req.query;
-            const queryParams = { limit, page, sort, query };
-            const products = await viewsService.getHome(queryParams);
-            return res.status(200).render('products', { products });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ status: 'error', msg: 'Error in server', products: {} });
-        }
-    }
-*/
+
     async getRealTimeProducts(req, res) {
         try {
             const products = await viewsService.getRealTimeProducts();
@@ -61,11 +49,8 @@ const viewsService = new ViewsService();
             if (parseInt(page) > paginationInfo.totalPages || parseInt(page) < 1) {
                 throw new Error('La página solicitada no existe');
             }
-            console.log(req.session.user)
             const user = req.session.user;
             const userCartId=req.session.user.cartId;
-
-                  console.log("llega al vies controller");
             res.render('products', {prods, paginationInfo, sort, category, status, user,userCartId})
            
         } catch(error) {
@@ -79,7 +64,6 @@ const viewsService = new ViewsService();
 
     async getProduct(req, res, next) {
         try {
-            console.log("llega al getprodct del controller")
             const { pid } = req.params;
             const product = await viewsService.getProduct(pid);
             res.render('product', { product });
@@ -90,11 +74,8 @@ const viewsService = new ViewsService();
 
     async getCart(req, res, next) {
         try {
-            console.log("llega a querer mostrar el cart")
-            console.log(req.params)
             const { cid } = req.params;
             const cart = await viewsService.getCart(cid);
-            console.log(cart)
             res.render('cart', { cart });
         } catch (error) {
             next(error);

@@ -28,7 +28,6 @@ class ViewsService {
 
     async getProducts(queryParams) {
         try {
-            console.log("llega al vies service getproducts")
             const {
                 payload: products,
                 totalPages,
@@ -88,8 +87,6 @@ class ViewsService {
     async getCart(cid) {
         try {
             const cart = await cartService.get(cid);
-            console.log("llega al get cart de view service")
-            console.log(cart)
             const simplifiedCart = cart.products.map((item) => ({
                 title: item.product.title,
                 price: item.product.price,

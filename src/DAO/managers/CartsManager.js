@@ -19,7 +19,6 @@ class CartManager {
             }
      
             if (Object.values(newCart).every(value => value)) {
-                console.log(newCart)
                 this.carts.push(newCart);
                 const cartJSON = JSON.stringify(this.carts, null, 2);
                 await fs.promises.writeFile(this.path, cartJSON)

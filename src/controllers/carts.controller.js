@@ -14,7 +14,6 @@ class CartsController {
 
     async getCart(req, res) {
         try {
-            console.log("llega a esta ruta")
             const cartId = req.params.cid;
             const cart = await cartService.get(cartId);
             res.status(200).json(cart);
@@ -26,7 +25,6 @@ class CartsController {
     async addProductToCart(req, res) {
         try {
             const { cid, pid } = req.params;
-            console.log("llega")
             const cart = await cartService.addProductToCart(cid, pid);
             res.status(200).json(cart);
         } catch (error) {

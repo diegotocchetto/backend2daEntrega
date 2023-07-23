@@ -24,8 +24,6 @@ router.get("/", async (req, res) => {
             nextPage,
         };
         const user = req.session.user;
-        console.log("llega al home.router");
-        console.log(user);
         res.render("products", object);
     } catch (error) {}
   });

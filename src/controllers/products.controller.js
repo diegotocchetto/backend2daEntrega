@@ -25,7 +25,6 @@ class ProductsController {
     async getProductById(req, res) {
         try {
             const { pid } = req.params;
-            console.log (pid)
             const product = await productService.getProductById(pid);
             return res.status(200).json({
                 status: 'success',
@@ -44,17 +43,14 @@ class ProductsController {
     
     async createProduct(req, res) {
         try {
-            console.log("llega al controler create")
             const { title, description, price, thumbnail, code, stock, category } = req.body;
             const productCreated = await productService.createOne(title, description, price, thumbnail, code, stock, category);
-            console.log("sale del productcreated al controler create")
             return res.status(201).json({
                 status: 'success',
                 msg: 'product created',
                 data: productCreated,
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',
@@ -75,7 +71,6 @@ class ProductsController {
             data: {productUpdated},
           });
         } catch (e) {
-          console.log(e);
           return res.status(500).json({
             status: 'error',
             msg: 'something went wrong :(',
