@@ -1,4 +1,4 @@
-import { UserModel } from "../DAO/models/users.model.js";
+import { UserModel } from "..//DAO/Mongo/models/users.model.js";
 
 const renderSessionView = (req, res) => {
     return res.send(JSON.stringify(req.session));

@@ -1,6 +1,7 @@
 import  {ProductService} from '../services/products.service.js';
 const productService = new ProductService();
 
+
 class ProductsController {
 
     async getAllProducts(req, res) {

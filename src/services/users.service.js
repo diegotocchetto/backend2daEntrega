@@ -1,4 +1,6 @@
-import { UserModel } from '../DAO/models/users.model.js';
+//import { usersDao } from "../DAO/Mongo/classes/users.dao.js";
+import { UsersDAO,CartDao} from "../DAO/modelFactory.js";
+
 
 export class UserService {
   validateUser(firstName, lastName, email, age) {
@@ -8,13 +10,13 @@ export class UserService {
   }
 
   async getAll() {
-    const users = await UserModel.find({});
+    const users = await UsersDAO.find({});
     return users;
   }
 
 
   async findUserByEmail(email) {
-    const user = await UserModel.findOne(
+    const user = await UsersDAO.findOne(
       { email: email },
       {
         _id: true,
@@ -37,21 +39,21 @@ export class UserService {
    }
    //agregar crear carrito
    const role="user";
-   const cartId="64baa345205099bd1de3b646";
-    const userCreated = await UserModel.create({ firstName, lastName, email, age,role, cartId });
+   //const cartId="64baa345205099bd1de3b646";
+    const userCreated = await UsersDAO.create({ firstName, lastName, email, age,role, cartId });
     return userCreated;
   }
 
   async deleteOne(uid) {
-    const deleted = await UserModel.deleteOne({ _id: uid });
+    const deleted = await UsersDAO.deleteOne({ _id: uid });
     return deleted;
   }
 
   async updateOne(uid, firstName, lastName, email, age) {
     if (!uid) throw new Error('invalid _id');
-    const prouctExist= await UserModel.findOne({uid});
+    const prouctExist= await UsersDAO.findOne({uid});
     this.validateUser(firstName, lastName, email, age);
-    const userUptaded = await UserModel.updateOne({ _id: uid }, { firstName, lastName, email , age});
+    const userUptaded = await UsersDAO.updateOne({ _id: uid }, { firstName, lastName, email , age});
     return userUptaded;
   }
 }

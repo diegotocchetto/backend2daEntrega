@@ -47,7 +47,7 @@ export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(pa
 
 //SOCKETS
 import { Server } from 'socket.io';
-import { messageModel } from './DAO/models/messages.model.js';
+import { messageModel } from './DAO/Mongo/models/messages.model.js';
 export function connectSocket(httpServer) {
   const socketServer = new Server(httpServer);
 
@@ -93,17 +93,6 @@ socketServer.on('connection', (socket) => {
 });
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 export default __dirname;

@@ -1,7 +1,6 @@
 //@ts-check
 
 import express from "express";
-import { UserModel } from "../DAO/models/users.model.js";
 import { UserController } from "../controllers/users.controllers.js";
 
 const usersController = new UserController();
