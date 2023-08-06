@@ -16,6 +16,7 @@ const viewsService = new ViewsService();
 
     async getProducts(req, res) {
         try{
+            console.log("llega aca")
             const { page, limit, sort, category, status }= req.query;
             const queryResult = await productService.getAll(page, limit, sort, category, status);
             const {docs, ...paginationInfo} = queryResult;
@@ -50,7 +51,10 @@ const viewsService = new ViewsService();
                 throw new Error('La página solicitada no existe');
             }
             const user = req.session.user;
+       
+
             const userCartId=req.session.user.cartId;
+            console.log(userCartId)
             res.render('products', {prods, paginationInfo, sort, category, status, user,userCartId})
            
         } catch(error) {

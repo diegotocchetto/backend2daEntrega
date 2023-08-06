@@ -32,7 +32,7 @@ export class ProductService{
             filter.status = status || true;
         }
 
-        const products = await ProductDAO.paginate(filter, options);
+        const products = await ProductDAO.getAll(filter, options);
 
         return products;
     } catch (error) {

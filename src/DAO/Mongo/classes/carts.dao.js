@@ -14,7 +14,7 @@ export class CartDao {
 
   async findById(cartId) {
     try {
-      return await CartModel.findById(cartId);
+      return await CartModel.findById(cartId).populate('products.product');
     } catch (e) {
       throw e;
     }

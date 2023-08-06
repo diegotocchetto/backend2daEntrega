@@ -15,7 +15,9 @@ export class CartService{
     }
 
     async get(cartId){
-        const cart = await CartDAO.findById(cartId).populate('products.product');
+        console.log("LLEGA al get")
+       // const cart = await CartDAO.findById(cartId).populate('products.product');
+        const cart = await CartDAO.findById(cartId);
         if(!cart){
             throw new Error('Cart not found');
         }

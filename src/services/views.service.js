@@ -1,4 +1,6 @@
-import { ProductModel } from '../DAO/Mongo/models/products.model.js';
+//import { ProductModel } from '../DAO/Mongo/models/products.model.js';
+import { ProductDao } from "../DAO/modelFactory.js";
+ const ProductDAO = new ProductDao();
 import ProductService from '../services/products.service.js';
 import CartService from'../services/carts.service.js';
 
@@ -67,7 +69,7 @@ class ViewsService {
 
     async getProduct(pid) {
         try {
-            const product = await ProductModel.findById(pid);
+            const product = await ProductDAO.findById(pid);
             const productSimplified = {
                 _id: product._id.toString(),
                 title: product.title,
@@ -86,6 +88,7 @@ class ViewsService {
 
     async getCart(cid) {
         try {
+            console.log("llega aca")
             const cart = await cartService.get(cid);
             const simplifiedCart = cart.products.map((item) => ({
                 title: item.product.title,
