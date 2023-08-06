@@ -1,25 +1,38 @@
-import  {UserModel} from "../models/users.model.js"; 
+import  {UserModel}  from "../models/users.model.js";
 
-export const usersDao = {
-  create: async (userData) => {
-    return await UserModel.create(userData);
-  },
+export class userDao {
 
-  findOne: async (query, projection) => {
-    return await UserModel.findOne(query, projection);
-  },
+  async create(userData) {
+    try {
+      return await UserModel.create(userData);
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  find: async (query, projection) => {
-    return await UserModel.find(query, projection);
-  },
+  async findById(userId) {
+    try {
+      return await UserModel.findById(userId);
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  findByIdAndUpdate: async (id, updateData, options) => {
-    return await UserModel.findByIdAndUpdate(id, updateData, options);
-  },
+  async update(userId, updateData) {
+    try {
+      return await UserModel.findByIdAndUpdate(userId, updateData, { new: true });
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  findByIdAndDelete: async (id) => {
-    return await UserModel.findByIdAndDelete(id);
-  },
-};
+  async delete(userId) {
+    try {
+      return await UserModel.findByIdAndDelete(userId);
+    } catch (e) {
+      throw e;
+    }
+  }
+}
 
-export default usersDao;
+export default userDao;

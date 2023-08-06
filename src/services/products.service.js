@@ -1,4 +1,6 @@
-import { ProductModel } from "../DAO/Mongo/models/products.model.js";
+import { ProductDao } from "../DAO/modelFactory.js";
+ const ProductDAO = new ProductDao();
+
 
 export class ProductService{
     
@@ -30,7 +32,7 @@ export class ProductService{
             filter.status = status || true;
         }
 
-        const products = await ProductModel.paginate(filter, options);
+        const products = await ProductDAO.paginate(filter, options);
 
         return products;
     } catch (error) {
@@ -40,7 +42,7 @@ export class ProductService{
 
     async getProductById(id) {
       try {
-        const productFiltered = await ProductModel.findOne({ _id: id });
+        const productFiltered = await ProductDAO.findOne({ _id: id });
         return {
           status: 200,
           result: { succes: true, payload: productFiltered },
@@ -57,12 +59,12 @@ export class ProductService{
     
     async createOne(title, description, price, thumbnail, code, stock, category){
         this.validate(title, description, price, thumbnail, code, stock, category);
-        const productCreated = await ProductModel.create({title, description, price, thumbnail, code, stock, category,status:true});
+        const productCreated = await ProductDAO.create({title, description, price, thumbnail, code, stock, category,status:true});
         return productCreated;
     }
 
     async deleteOne(_id){
-        const deleted = await ProductModel.deleteOne({_id});
+        const deleted = await ProductDAO.deleteOne({_id});
         if (deleted.deletedCount === 1) {
             return true;
         } else {
@@ -73,10 +75,10 @@ export class ProductService{
     async updateOne(_id, title, description, price,thumbnail,code,stock,category,status) {
 
       if (!_id) throw new Error('invalid _id');
-      const prouctExist= await ProductModel.findOne({_id});
+      const prouctExist= await ProductDAO.findOne({_id});
       console.log ("llega aca")
       if (!prouctExist) throw new Error('product not exist');
-      const productUptaded = await ProductModel.updateOne({ _id: _id }, { title, description, price,thumbnail,code,stock,category,status });
+      const productUptaded = await ProductDAO.updateOne({ _id: _id }, { title, description, price,thumbnail,code,stock,category,status });
       return productUptaded;
     }
   }

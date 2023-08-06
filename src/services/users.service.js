@@ -1,5 +1,7 @@
-//import { usersDao } from "../DAO/Mongo/classes/users.dao.js";
-import { UsersDAO,CartDao} from "../DAO/modelFactory.js";
+
+import { UserDao} from "../DAO/modelFactory.js";
+import { CartDao} from "../DAO/modelFactory.js";
+const UsersDAO = new UserDao();
 
 
 export class UserService {

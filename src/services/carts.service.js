@@ -1,19 +1,21 @@
-//import {CartDao} from "../DAO/Mongo/classes/carts.dao.js";
-//import  {ProductDao} from "../DAO/Mongo/classes/products.dao.js";
 
-import { CartDao,ProductsDAO } from "../DAO/modelFactory.js";
+import { CartDao } from "../DAO/modelFactory.js";
+import { ProductDao } from "../DAO/modelFactory.js";
+ const ProductDAO = new ProductDao();
+ const CartDAO = new CartDao();
+
 
 export class CartService{
 
     async createOne(){
         console.log("LLEGA")
-        const cartCreated = await CartDao.create({});
+        const cartCreated = await CartDAO.create({});
      
         return cartCreated;
     }
 
     async get(cartId){
-        const cart = await CartDao.findById(cartId).populate('products.product');
+        const cart = await CartDAO.findById(cartId).populate('products.product');
         if(!cart){
             throw new Error('Cart not found');
         }
@@ -22,8 +24,8 @@ export class CartService{
 
     async addProductToCart(cartId, productId) {
         try {
-            const cart = await CartDao.findById(cartId);
-            const product = await ProductsDAO.findById(productId);
+            const cart = await CartDAO.findById(cartId);
+            const product = await ProductDAO.findById(productId);
             if (!cart) {
                 throw new Error('Cart not found');
             }
@@ -40,7 +42,7 @@ export class CartService{
 
     async updateCart(cartId, products) {
         try {
-            const cart = await CartDao.findByIdAndUpdate(cartId, {products}, {new: true});
+            const cart = await CartDAO.findByIdAndUpdate(cartId, {products}, {new: true});
             return cart;
         } catch (error) {
             throw new Error('Error updating cart in database');
@@ -49,7 +51,7 @@ export class CartService{
 
     async updateProductQuantity(cartId, productId, quantity) {
         try {
-            const cart = await CartDao.findById(cartId);
+            const cart = await CartDAO.findById(cartId);
             const productIndex = cart.products.findIndex((p) => p.product.toString() === productId);
             if (productIndex === -1) {
                 throw new Error('Product not found in cart');
@@ -64,7 +66,7 @@ export class CartService{
 
     async removeProduct(cartId, productId) {
         try {
-            const cart = await CartDao.findById(cartId);
+            const cart = await CartDAO.findById(cartId);
             const productIndex = cart.products.findIndex((p) => p.product.toString() === productId);
             if (productIndex === -1) {
                 throw new Error('Product not found in cart');
@@ -79,7 +81,7 @@ export class CartService{
 
     async clearCart(cartId) {
         try {
-            const cart = await CartDao.findById(cartId);
+            const cart = await CartDAO.findById(cartId);
             cart.products = [];
             await cart.save();
         } catch (error) {
