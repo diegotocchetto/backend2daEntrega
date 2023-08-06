@@ -1,9 +1,10 @@
 
-import { CartDao } from "../DAO/modelFactory.js";
-import { ProductDao } from "../DAO/modelFactory.js";
+import { CartDao,ProductDao,TicketDao } from "../DAO/modelFactory.js";
+import mongoose from "mongoose";
+
  const ProductDAO = new ProductDao();
  const CartDAO = new CartDao();
-
+ const TicketDAO = new TicketDao();
 
 export class CartService{
 
@@ -90,6 +91,54 @@ export class CartService{
             throw new Error('Error clearing cart');
         }
     }
+    async deleteProductFromCart(cartID, productID) {
+        try {
+            console.log("entra a borrar en deleteProductFromCart")
+          const cart = await findById.findCart(cartID);
+          const productInCartIndex = cart.products.findIndex((product) => product.idProduct.toString() === productID);
+          cart.products.splice(productInCartIndex, 1);
+          await CartDAO.update(cartID, cart);
+          return { code: 200, result: { status: "success", message: "Product deleted from cart", payload: cart } };
+        } catch (error) {
+          return { code: 500, result: { status: "error", message: "Couldn't delete product from cart." } };
+        }
+      }
+
+    async purchase(purchaser, cartID) {
+        try {
+          const cart = await CartDAO.findById(cartID);
+          if (cart.products.length < 1) return { code: 404, result: { status: "empty", message: "Cart is empty" } };
+          let totalAmount = 0;
+
+
+          for (const cartProduct of cart.products) {
+            const productDB =  await ProductDAO.findById(cartProduct.product._id);
+        
+            if (productDB.stock < cartProduct.quantity) {
+              return {
+                code: 404,
+                result: {
+                  status: "nostock",
+                  message: `Not enough stock for product ${productDB.title}`,
+                  payload: productDB,
+                },
+              };
+            }
+            totalAmount += productDB.price * cartProduct.quantity;
+            productDB.stock -= cartProduct.quantity;
+            console.log("va a entrar a ProductDAO.updateOn")
+            await ProductDAO.updateOne(productDB._id , productDB);
+            console.log("sale de entrar a ProductDAO.updateOn")
+            console.log("borra producto del carro")
+            await this.deleteProductFromCart(cartID, cartProduct.product._id);
+          }
+          const ticket = await TicketDAO.createTicket(purchaser, totalAmount);
+          return { code: 200, result: { status: "success", message: "Purchase successful", payload: ticket } };
+        } catch (error) {
+          console.log(error)
+          return { code: 500, result: { status: "error", message: "Couldn't purchase products." } };
+        }
+      }
 }
 
 export default CartService;

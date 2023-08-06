@@ -20,9 +20,11 @@ export class ProductDao {
     return product;
   }
 
+/*
   async updateOne(id, title, description, price, thumbnail, code, stock, status, category) {
-    this.validate(title, description, price, thumbnail, code, stock, status, category);
+    //this.validate(title, description, price, thumbnail, code, stock, status, category);
     const productUpdated = await ProductModel.findOneAndUpdate(
+    
       { _id: id },
       {
         title,
@@ -38,6 +40,10 @@ export class ProductDao {
     );
     return productUpdated;
   }
+*/
+async updateOne(pid, productAttributes) {
+  await ProductModel.updateOne({ _id: pid }, productAttributes);
+}
 
   async deleteOne(id) {
     const productDeleted = await ProductModel.findOneAndRemove({ _id: id });
@@ -45,14 +51,10 @@ export class ProductDao {
   }
 
   async findById(productId) {
-    console.log("ingreso al findById de product.dao")
-    console.log("productId en findById", typeof productId)
-    console.log(typeof productId)
-    const id = productId.toString()
-    const product = await ProductModel.findById(id);
-    console.log("findById en product.dao", product)
+    const product = await ProductModel.findById(productId);
     return product;
   }
 }
+
 
 export default ProductDao;

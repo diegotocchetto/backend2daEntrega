@@ -5,10 +5,11 @@ const cartsController = new CartsController();
 
 cartsRouter.get('/:cid', cartsController.getCart);
 cartsRouter.post('/', cartsController.createCart);
-cartsRouter.post('/:cid/product/:pid', cartsController.addProductToCart);
+cartsRouter.post('/:cid/product/:pid',cartsController.addProductToCart);
 cartsRouter.delete('/:cid/product/:pid', cartsController.removeProductFromCart);
 cartsRouter.put('/:cid', cartsController.updateCart);
 cartsRouter.put('/:cid/product/:pid', cartsController.updateProductQuantity);
 cartsRouter.delete('/:cid', cartsController.clearCart);
+cartsRouter.post("/:cid/purchase", cartsController.purchase)
 
 export default cartsRouter;

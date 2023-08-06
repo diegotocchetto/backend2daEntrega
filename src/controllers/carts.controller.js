@@ -85,6 +85,14 @@ class CartsController {
             res.status(500).json({ status: "error", message: "Internal server error" });
         }
     }
+
+    async purchase(req, res) {
+        const cartID = req.params.cid;
+        console.log("va a iprimir al usuario esta en carts.controller")
+        console.log(req.session.user)
+        const response = await cartService.purchase(req.session.user?.email, cartID);
+        return res.status(response.code).json(response.result);
+      }
 }
 
 export default CartsController;

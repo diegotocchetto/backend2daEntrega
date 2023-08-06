@@ -70,3 +70,47 @@ function deleteProduct (productId) {
   
     return null;
   }
+
+  const purchaseCart = (cartId) => {
+    //get cartId from fetch
+    fetch(`/api/carts/${cartId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const products = data.payload.products;
+        const formatProduct = products.map((product) => {
+          return {
+            id: product.id._id,
+            quantity: product.quantity,
+          };
+        });
+
+  
+        fetch(`/api/carts/${cartId}/purchase`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formatProduct),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            const id = data.payload._id;
+            setTimeout(() => {
+              window.location.href = `/api/carts/purchase/${id}`;
+            }, 3000);
+            showMsg2(
+              `Order in progress`,
+              3000,
+              '##0D6EFD'
+            );
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
