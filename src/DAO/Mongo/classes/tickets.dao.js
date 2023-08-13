@@ -1,15 +1,40 @@
-import { TicketModel } from '../models/tickets.model.js';
+import  TicketModel  from '../models/tickets.model.js';
 import { v4 as uuidGenerator } from "uuid";
 
-export class TicketsDao {
-  async createTicket(purchaser, amount) {
-    const code = uuidGenerator();
-    console.log("llega al tickt dao")
-    console.log(purchaser);
-    console.log(amount);
-    console.log(code);
-    return await TicketModel.create({ purchaser, amount, code });
+
+  export class TicketsDao {
+    //No se usa
+    async getAll() {
+      try {
+        const tickets = await TicketModel.find({});
+        return tickets;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    async getById(id) {
+      try {
+        let ticket;
+        ticket = await TicketModel.findOne({ _id: id }).lean();
+        return ticket;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    async add(ticket) {
+      try {
+        const newTicket = await TicketModel.create(ticket);
+        return newTicket;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    async update(id, ticket) {}
+  
+    async delete(id) {}
   }
-}
 
 export default TicketsDao;

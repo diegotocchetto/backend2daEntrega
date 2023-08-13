@@ -1,24 +1,19 @@
-const MongoCarts = require('../services/carts.services');
-import { CartDao,ProductDao } from "../DAO/modelFactory.js";
-
-const Services = new MongoCarts();
-
-const mongoose = require('mongoose');
-
-
-
- const ProductDAO = new ProductDao();
- const CartDAO = new CartDao();
+import MongoCarts from'../services/carts.service.js';
+const CartService = new MongoCarts();
+import mongoose from "mongoose";
+import { TicketDao, ProductDao, CartDao } from "../DAO/modelFactory.js";
+const ticketsDAO = new TicketDao();
+const productDAO = new ProductDao();
+const cartsDAO = new CartDao();
 
 
-const { TicketsDAO, ProductsDAO, CartsDAO } = require('../model/daos/app.daos');
-const ticketsDAO = new TicketsDAO();
-const productDAO = new ProductsDAO();
-const cartsDAO = new CartsDAO();
-
-class MongoTickets {
+export class ticketsServices {
   async purchaseCart(cartId, cartList, userMail, userCartId) {
     try {
+      console.log("LLEGA A TICKETSERVICES EN PURCHASECART")
+      console.log(cartId)
+      console.log(cartList)
+      console.log(userMail)
       if (!Array.isArray(cartList)) {
         return {
           status: 400,
@@ -139,17 +134,17 @@ class MongoTickets {
 
       // Borra los productos comprados del carrito
       if (productsFiltered.length > 0) {
-        await Services.deleteProduct(
+        await CartService.deleteProduct(
           cartId,
           productsFiltered.map((product) => product._id)
         );
         // console.log('FLAG Productos comprados: ', productsFiltered);
         //Limpia carrito cuando se compra
-        await Services.deleteCart(cartId);
+        await CartService.deleteCart(cartId);
       }
       // Agrega los productos no comprados al carrito
       if (productsNotPurchased.length > 0) {
-        await Services.updateCart(cartId, productsNotPurchased);
+        await CartService.updateCart(cartId, productsNotPurchased);
         // console.log('FLAG Productos no comprados: ', productsNotPurchased);
       }
 
@@ -203,4 +198,4 @@ class MongoTickets {
   }
 }
 
-module.exports = MongoTickets;
+export default ticketsServices;

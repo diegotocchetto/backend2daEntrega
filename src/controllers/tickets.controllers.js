@@ -3,7 +3,8 @@ import { ticketsService } from "../services/index.js";
 
 const getTicketsController = async (req, res) => {
     try {
-        const tickets = await ticketsService.getTicketsService()
+        const tickets = await ticketsService.getTicketsService();
+        console.log(tickets)
         return res.sendSuccess(tickets)
 
     } catch (error) {

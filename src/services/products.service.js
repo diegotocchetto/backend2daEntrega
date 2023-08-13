@@ -1,14 +1,19 @@
 import { ProductDao } from "../DAO/modelFactory.js";
  const ProductDAO = new ProductDao();
+import CustomError from "../services/errors/custom-error.js";
+import EErros from "../services/errors/enums.js";
 
 
 export class ProductService{
     
     validate(title, description, price, thumbnail, code, stock, category){
         if (!title || !description || !price || !code || !stock || !category) {
-            console.log("validation error: please complete all fields.");
-            throw new Error("validation error: please complete all fields.");
-        }
+          CustomError.createError({
+            name: 'fields missing or incorrect',
+            cause: 'fields missing or incorrect',
+            message: 'validation error: please complete or correct all fields.',
+            code: EErros.VALIDATION_ERROR,
+        });        }
     }
 
     async getAll(page, limit, sort, category, status){
@@ -68,7 +73,12 @@ export class ProductService{
         if (deleted.deletedCount === 1) {
             return true;
         } else {
-            throw new Error("Product not found");
+          CustomError.createError({
+            name: 'fields missing or incorrect',
+            cause: 'fields missing or incorrect',
+            message: 'validation error: please complete or correct all fields.',
+            code: EErros.VALIDATION_ERROR,
+        });
         }
     }
 

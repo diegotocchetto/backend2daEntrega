@@ -1,6 +1,8 @@
 
 import { CartDao,ProductDao,TicketDao } from "../DAO/modelFactory.js";
 import mongoose from "mongoose";
+import CustomError from "../services/errors/custom-error.js";
+import EErros from "../services/errors/enums.js";
 
  const ProductDAO = new ProductDao();
  const CartDAO = new CartDao();
@@ -20,28 +22,65 @@ export class CartService{
        // const cart = await CartDAO.findById(cartId).populate('products.product');
         const cart = await CartDAO.findById(cartId);
         if(!cart){
-            throw new Error('Cart not found');
+            CustomError.createError({
+                name: '404 not found error',
+                cause: cart,
+                message: 'Not Found',
+                code: EErros.NOT_FOUND_ERROR,
+            });
         }
         return cart;
     }
 
     async addProductToCart(cartId, productId) {
         try {
+           
             const cart = await CartDAO.findById(cartId);
             const product = await ProductDAO.findById(productId);
             if (!cart) {
-                throw new Error('Cart not found');
+                CustomError.createError({
+                    name: '404 not found error',
+                    cause: cart,
+                    message: 'Cart not Found',
+                    code: EErros.NOT_FOUND_ERROR,
+                });
             }
             if (!product) {
-                throw new Error('Product not found');
+                CustomError.createError({
+                    name: '404 not found error',
+                    cause: cart,
+                    message: 'product not Found',
+                    code: EErros.NOT_FOUND_ERROR,
+                });
             }
-            cart.products.push({product: product._id, quantity: 1});
+           // console.log(cart)
+           const productoEncontrado = cart.products.find(producto => producto.product._id.toString() === productId);
+           if(productoEncontrado){
+           for (let i = 0; i < cart.products.length; i++)
+            {
+                   if (cart.products[i].product._id.toString() === productId){
+                    cart.products[i].quantity += 1;
+                   console.log("Cantidad del producto aumentada:", cart.products[i].quantity);
+                   break; 
+                    }
+            }
+                    }else{
+                    cart.products.push({product: product._id, quantity: 1});
+                    }
             await cart.save();
             return cart;
         } catch (error) {
             throw error;
         }
     }
+/////
+
+
+
+
+
+
+
 
     async updateCart(cartId, products) {
         try {

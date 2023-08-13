@@ -1,5 +1,10 @@
 import {CartService}  from "../services/carts.service.js";
+import {ticketsServices}  from "../services/tickets.service.js";
+import userDTO  from '../DAO/DTO/user.dto.js';
+
+
 const cartService = new CartService();
+const ticketsService = new ticketsServices();
 
 class CartsController {
     async createCart(req, res) {
@@ -86,13 +91,23 @@ class CartsController {
         }
     }
 
-    async purchase(req, res) {
-        const cartID = req.params.cid;
-        console.log("va a iprimir al usuario esta en carts.controller")
-        console.log(req.session.user)
-        const response = await cartService.purchase(req.session.user?.email, cartID);
-        return res.status(response.code).json(response.result);
-      }
+    purchaseCart = async (req, res) => {
+        console.log("llega al purchaseCart del carts.controller")
+        const id = req.params.cid;
+        const cartList = req.body;
+        const infoUser = new userDTO(req.session);
+        console.log(infoUser)
+       
+        const response = await ticketsService.purchaseCart(id, cartList, infoUser.email, infoUser.cartID);
+        return res.status(response.status).json(response.result);
+      };
+    
+      getTicketById = async (req, res) => {
+        const id = req.params.cid;
+        //TODO DTO DE salida?
+        const response = await ticketsService.getTicketById(id);
+        return res.render('ticket', { ticket: response.result });
+      };
 }
 
 export default CartsController;
