@@ -1,5 +1,6 @@
 import  {ProductService} from '../services/products.service.js';
 const productService = new ProductService();
+import logger from "../utils/logger.js";
 
 
 class ProductsController {
@@ -14,7 +15,7 @@ class ProductsController {
       data: products,
     });
   } catch (e) {
-    console.log(e);
+    logger.error('Error retrieving product data:', e);
     return res.status(500).json({
       status: 'error',
       msg: 'something went wrong :(',
@@ -33,7 +34,7 @@ class ProductsController {
                 data: product,
             });
         } catch (error) {
-            console.log(error);
+            logger.error('Error retrieving product data:', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',
@@ -52,6 +53,7 @@ class ProductsController {
                 data: productCreated,
             });
         } catch (error) {
+            logger.error('Error retrieving creating product :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',
@@ -73,6 +75,7 @@ class ProductsController {
             data: {productUpdated},
           });
         } catch (e) {
+          logger.error('Error retrieving updating product :', e);
           return res.status(500).json({
             status: 'error',
             msg: 'something went wrong :(',
@@ -92,7 +95,7 @@ class ProductsController {
                 data: {},
             });
         } catch (error) {
-            console.log(error);
+            logger.error('Error retrieving deleting product :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',

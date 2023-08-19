@@ -1,5 +1,6 @@
 import  {UserService} from '../services/users.service.js';
 const userService = new UserService();
+import logger from "../utils/logger.js";
 
 export class UserController {
     async getAllUsers(req, res) {
@@ -8,7 +9,7 @@ export class UserController {
             const response = await userService.getAll();
             return res.status(200).json(response);
         } catch (error) {
-            console.log(error);
+            logger.error('Error retrieving users :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',
@@ -27,7 +28,7 @@ export class UserController {
                 data: product,
             });
         } catch (error) {
-            console.log(error);
+            logger.error('Error retrieving users :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',
@@ -46,6 +47,7 @@ export class UserController {
                 data: userCreated,
             });
         } catch (error) {
+            logger.error('Error retrieving creating users :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :( ' ,
@@ -65,6 +67,7 @@ export class UserController {
             data: {productUpdated},
           });
         } catch (e) {
+            logger.error('Error retrieving updating users :', error);
           return res.status(500).json({
             status: 'error',
             msg: 'something went wrong :(',
@@ -84,7 +87,7 @@ export class UserController {
                 data: {},
             });
         } catch (error) {
-            console.log(error);
+            logger.error('Error retrieving deleting users :', error);
             return res.status(500).json({
                 status: 'error',
                 msg: 'something went wrong :(',

@@ -2,6 +2,7 @@ import ViewsService from '../services/views.service.js';
 import  {ProductService} from '../services/products.service.js';
 const productService = new ProductService();
 const viewsService = new ViewsService();
+import logger from "../utils/logger.js";
 
  class ViewsController {
 
@@ -88,6 +89,16 @@ const viewsService = new ViewsService();
 
     async getLogin(req, res) {
         res.render('login');
+    }
+
+    async loggerTest(req, res) {
+        logger.debug('Debug log for testing');
+        logger.info('Info log for testing');
+        logger.warn('Warning log for testing');
+        logger.error('Error log for testing');
+        logger.fatal('Fatal log for testing');
+    
+        res.status(200).json({ message: 'Logs tested successfully' });
     }
 }
 

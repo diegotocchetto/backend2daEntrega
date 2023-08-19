@@ -1,6 +1,7 @@
 import {CartService}  from "../services/carts.service.js";
 import {ticketsServices}  from "../services/tickets.service.js";
 import userDTO  from '../DAO/DTO/user.dto.js';
+import logger from "../utils/logger.js";
 
 
 const cartService = new CartService();
@@ -12,7 +13,7 @@ class CartsController {
             const newCart = await cartService.createOne();
             res.status(201).json(newCart);
         } catch (error) {
-        console.log(error);
+        logger.error('Error retrieving creating cart :', error);
         res.status(500).json({ message: "Internal Server Error" });
         }
     }
@@ -33,6 +34,7 @@ class CartsController {
             const cart = await cartService.addProductToCart(cid, pid);
             res.status(200).json(cart);
         } catch (error) {
+            logger.error('Error retrieving creating product in cart :', error);
             res.status(404).json({ error: error.message });
         }
     }
@@ -47,7 +49,7 @@ class CartsController {
                 cart,
             });
         } catch (error) {
-            console.error(error);
+            logger.error('Error retrieving deleting product from cart :', error);
             res.status(500).json({ status: "error", message: "Internal server error" });
         }
     }
@@ -63,7 +65,7 @@ class CartsController {
                 cart,
             });
         } catch (error) {
-            console.error(error);
+            logger.error('Error retrieving updating cart :', error);
             res.status(500).json({ status: "error", message: "Internal server error" });
         }
     }
@@ -75,7 +77,7 @@ class CartsController {
             const cart = await cartService.updateProductQuantity(cid, pid, quantity);
             res.status(200).json({ status: "success", message: "Product quantity updated", cart });
         } catch (error) {
-            console.error(error);
+            logger.error('Error retrieving updating product quantity from cart :', error);
             res.status(500).json({ status: "error", message: "Internal server error" });
         }
     }
@@ -86,7 +88,7 @@ class CartsController {
             await cartService.clearCart(cid);
             res.status(200).json({ status: "success", message: "Cart cleared successfully" });
         } catch (error) {
-            console.error(error);
+            logger.error('Error retrieving clearing  cart :', error);
             res.status(500).json({ status: "error", message: "Internal server error" });
         }
     }

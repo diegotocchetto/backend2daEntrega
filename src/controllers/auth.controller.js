@@ -1,4 +1,5 @@
 import { UserModel } from "..//DAO/Mongo/models/users.model.js";
+import logger from "../utils/logger.js";
 
 const renderSessionView = (req, res) => {
     return res.send(JSON.stringify(req.session));
@@ -33,6 +34,7 @@ const handleRegister = (req, res) => {
 };
 
 const renderFailRegisterView = async (req, res) => {
+    logger.debug('fail to register');
     return res.json({ error: 'fail to register' });
 };
 
@@ -49,12 +51,14 @@ const renderProductsView = async (req, res) => {
                 cartId: user.cartId,
                 role: user.role,
             };
+            logger.debug('Rendering products view with user data:', userData);
             return res.render('products', { user: userData });
         } else {
+            logger.debug('Rendering products view with no user data');
             return res.render('products', { user: null });
         }
     } catch (error) {
-        console.error(error);
+        logger.error('Error retrieving user data:', error);
         return res.render('products', { user: null, error: 'Error retrieving user data' });
     }
 };
