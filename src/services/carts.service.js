@@ -96,7 +96,13 @@ export class CartService{
             const cart = await CartDAO.findById(cartId);
             const productIndex = cart.products.findIndex((p) => p.product.toString() === productId);
             if (productIndex === -1) {
-                throw new Error('Product not found in cart');
+               // throw new Error('Product not found in cart');
+                CustomError.createError({
+                    name: '404 product not found error',
+                    cause: cart,
+                    message: 'Product not Found',
+                    code: EErros.NOT_FOUND_ERROR,
+                });
             }
             cart.products[productIndex].quantity = quantity;
             await cart.save();
@@ -111,13 +117,24 @@ export class CartService{
             const cart = await CartDAO.findById(cartId);
             const productIndex = cart.products.findIndex((p) => p.product.toString() === productId);
             if (productIndex === -1) {
-                throw new Error('Product not found in cart');
+                CustomError.createError({
+                    name: '404 product not found error',
+                    cause: cart,
+                    message: 'Product not Found in cart',
+                    code: EErros.NOT_FOUND_ERROR,
+                });
             }
             cart.products.splice(productIndex, 1);
             await cart.save();
             return cart;
         } catch (error) {
-            throw new Error('Error removing product from cart');
+           
+            CustomError.createError({
+                name: '500 Error removing product from cart',
+                cause: cart,
+                message: 'Error removing product from cart',
+                code: EErros.INTERNAL_SERVER_ERROR,
+            });
         }
     }
 
@@ -127,7 +144,14 @@ export class CartService{
             cart.products = [];
             await cart.save();
         } catch (error) {
-            throw new Error('Error clearing cart');
+         //   throw new Error('Error clearing cart');
+            CustomError.createError({
+                name: '500 Error clearing cart',
+                cause: cart,
+                message: 'Error clearing cart',
+                code: EErros.INTERNAL_SERVER_ERROR,
+            });
+            
         }
     }
     async deleteProductFromCart(cartID, productID) {

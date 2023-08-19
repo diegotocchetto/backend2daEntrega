@@ -13,6 +13,7 @@ import { __dirname, connectMongo,connectSocket} from './utils.js';
 import { iniPassport } from './config/passport.config.js';
 import ChatRouter from './routes/chat.router.js';
 import { usersRouter } from './routes/users.router.js';
+import mockRouter from './routes/mock.router.js';
 import 'dotenv/config'
 
 
@@ -53,6 +54,7 @@ app.use("/", realTimeRouter)
 app.use('/api/sessions', sessionsRouter);
 app.use('/auth', authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/mockingproducts", mockRouter);
 
 
 
