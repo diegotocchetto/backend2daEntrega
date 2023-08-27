@@ -1,5 +1,5 @@
 import passport from 'passport';
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
 const renderGitHubLogin = (req, res) => {
     return passport.authenticate('github', { scope: ['user:email'] })(req, res);

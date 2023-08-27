@@ -1,10 +1,11 @@
 import MongoCarts from'../services/carts.service.js';
 const CartService = new MongoCarts();
-import mongoose from "mongoose";
-import { TicketDao, ProductDao, CartDao } from "../DAO/modelFactory.js";
+import mongoose from 'mongoose';
+import { TicketDao, ProductDao, CartDao } from '../DAO/modelFactory.js';
 const ticketsDAO = new TicketDao();
 const productDAO = new ProductDao();
 const cartsDAO = new CartDao();
+import logger from '../utils/logger.js';
 
 
 export class ticketsServices {

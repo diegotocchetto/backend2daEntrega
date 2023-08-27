@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import logger from "./utils/logger.js";
+import logger from './utils/logger.js';
 
 //MULTER
 import multer from 'multer';
@@ -26,16 +26,16 @@ export const __dirname=dirname(__filename);
 
 
 //CONECTION TO MONGO
-import { connect } from "mongoose";
+import { connect } from 'mongoose';
 export async function connectMongo() {
     try {
       await connect(
         process.env.MONGOURL
       );
-      //console.log("pluged to mongoCloud!");
       logger.info("pluged to mongoCloud!");
     } catch (e) {
-      console.log(e);
+      logger.error(e);
+      
       throw "can not connect to the db";
     }
   }
@@ -55,8 +55,7 @@ export function connectSocket(httpServer) {
 
 
 socketServer.on('connection', async socket => {
-  console.log('New client Connected', socket.id)
-
+  logger.info('New client Connected', socket.id);
 
 
   socket.on('client:productDelete', async (pid, cid) => {

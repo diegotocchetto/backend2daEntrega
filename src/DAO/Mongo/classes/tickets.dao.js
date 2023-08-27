@@ -1,9 +1,9 @@
 import  TicketModel  from '../models/tickets.model.js';
-import { v4 as uuidGenerator } from "uuid";
+import { v4 as uuidGenerator } from 'uuid';
+
 
 
   export class TicketsDao {
-    //No se usa
     async getAll() {
       try {
         const tickets = await TicketModel.find({});

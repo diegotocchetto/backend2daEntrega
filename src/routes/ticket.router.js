@@ -1,5 +1,5 @@
-import express from "express";
-import {ticketControllers} from "../controllers/tickets.controllers.js"
+import express from 'express';
+import {ticketControllers} from '../controllers/tickets.controllers.js';
 import { passportCall } from '../middleware/auth.js';
 
 export default class TicketsRouter extends BaseRouter {

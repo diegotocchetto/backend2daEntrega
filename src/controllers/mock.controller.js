@@ -1,6 +1,6 @@
-import MockProducts from '../services/mock.services.js';
+import MockProducts from '../services/mock.service.js';
 const Services = new MockProducts();
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
 export class MockController {
   getMockgingProducts = async (req, res) => {

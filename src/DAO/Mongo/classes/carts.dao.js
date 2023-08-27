@@ -1,4 +1,4 @@
-import {CartModel } from "../models/carts.model.js";
+import {CartModel } from '../models/carts.model.js';
 import mongoose from 'mongoose';
 
 export class CartDao {

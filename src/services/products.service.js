@@ -1,7 +1,8 @@
-import { ProductDao } from "../DAO/modelFactory.js";
+import { ProductDao } from '../DAO/modelFactory.js';
  const ProductDAO = new ProductDao();
-import CustomError from "../services/errors/custom-error.js";
-import EErros from "../services/errors/enums.js";
+import CustomError from '../services/errors/custom-error.js';
+import EErros from '../services/errors/enums.js';
+import logger from '../utils/logger.js';
 
 
 export class ProductService{
@@ -53,7 +54,7 @@ export class ProductService{
           result: { succes: true, payload: productFiltered },
         };
       } catch (err) {
-        console.log(err);
+        logger.error(err)
         return {
           status: 500,
           result: { status: 'error', msg: 'Internal Server Error', payload: {} },

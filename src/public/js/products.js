@@ -58,7 +58,6 @@ function deleteProduct (productId) {
 
   function getCookie(name) {
     const cookieString = document.cookie;
-    console.log(cookieString);
     const cookies = cookieString.split(';');
   
     for (let i = 0; i < cookies.length; i++) {
@@ -99,7 +98,6 @@ function deleteProduct (productId) {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             const id = data.payload._id;
             setTimeout(() => {
               window.location.href = `/api/carts/purchase/${id}`;

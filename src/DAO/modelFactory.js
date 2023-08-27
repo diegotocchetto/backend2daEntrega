@@ -1,6 +1,6 @@
 import 'dotenv/config'
-import mongoose from "mongoose";
-import logger from "../utils/logger.js";
+import mongoose from 'mongoose';
+import logger from '../utils/logger.js';
 export let MessagesDAO;
 export let CartDao;
 export let ProductDao; 
@@ -9,12 +9,10 @@ export let UserDao;
 
 switch (process.env.PERSISTENCE) {
   case 'MONGO':
-   // console.log('🍕Persistance with MongoDB');
     logger.info('🍕Persistance with MongoDB');
 
      mongoose.connect(process.env.MONGOURL);
 
-    //MessagesDAO = require('./messages/messages.mongo.dao');
      const {default: CartsMongo } =  await import ('./Mongo/classes/carts.dao.js');
      CartDao=CartsMongo;
 
@@ -34,10 +32,11 @@ switch (process.env.PERSISTENCE) {
     break;
 
   case 'MEMORY':
-    console.log('🍕Persistance with Memory');
+    logger.info('🍕Persistance with Memory');
     break;
 
   default:
+    logger.error('Invalid persistence type');
     throw new Error('Invalid persistence type');
 }
 

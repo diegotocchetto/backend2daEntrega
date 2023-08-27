@@ -1,6 +1,6 @@
 import  {ProductService} from '../services/products.service.js';
 const productService = new ProductService();
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
 
 class ProductsController {

@@ -1,8 +1,9 @@
 
-import { CartDao,ProductDao,TicketDao } from "../DAO/modelFactory.js";
-import mongoose from "mongoose";
-import CustomError from "../services/errors/custom-error.js";
-import EErros from "../services/errors/enums.js";
+import { CartDao,ProductDao,TicketDao } from '../DAO/modelFactory.js';
+import mongoose from 'mongoose';
+import CustomError from '../services/errors/custom-error.js';
+import EErros from '../services/errors/enums.js'
+import logger from '../utils/logger.js';
 
  const ProductDAO = new ProductDao();
  const CartDAO = new CartDao();
@@ -53,14 +54,14 @@ export class CartService{
                     code: EErros.NOT_FOUND_ERROR,
                 });
             }
-           // console.log(cart)
+
            const productoEncontrado = cart.products.find(producto => producto.product._id.toString() === productId);
            if(productoEncontrado){
            for (let i = 0; i < cart.products.length; i++)
             {
                    if (cart.products[i].product._id.toString() === productId){
                     cart.products[i].quantity += 1;
-                   console.log("Cantidad del producto aumentada:", cart.products[i].quantity);
+                   logger.info("Cantidad del producto aumentada:", cart.products[i].quantity);
                    break; 
                     }
             }

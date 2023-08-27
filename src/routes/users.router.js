@@ -1,7 +1,7 @@
 //@ts-check
 
-import express from "express";
-import { UserController } from "../controllers/users.controllers.js";
+import express from 'express';
+import { UserController } from '../controllers/users.controllers.js';
 
 const usersController = new UserController();
 

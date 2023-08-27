@@ -1,4 +1,4 @@
-import  {ProductModel}  from "../models/products.model.js";
+import  {ProductModel}  from '../models/products.model.js';
 
 
 export class ProductDao {
@@ -14,7 +14,6 @@ export class ProductDao {
 
   async createOne(title, description, price, thumbnail, code, stock, status, category){
     const productData = { title, description, price, thumbnail, code, stock, status, category }
-    console.log("ingreso a createOne en products.dao")
     const product = new ProductModel(productData);
     await product.save();
     return product;

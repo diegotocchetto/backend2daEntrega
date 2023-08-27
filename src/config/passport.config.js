@@ -6,7 +6,7 @@ const LocalStrategy = local.Strategy;
 import {CartService} from '../services/carts.service.js';
 import GithubStrategy from 'passport-github2';
 import 'dotenv/config'
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
 const cartService = new CartService();
 
@@ -109,7 +109,8 @@ export function iniPassport() {
                         cartId: cartId,
                         password: profile.password || '',
                     };
-                    console.log("login github")
+                
+                    logger.info("login github");
                     let userCreated = await UserModel.create(newUser);
                     logger.info('User Registration succesful');
                     return done(null, userCreated);

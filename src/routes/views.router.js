@@ -1,6 +1,6 @@
 //@ts-check
 
-import express from "express";
+import express from 'express';
 const viewsRouter = express.Router();
 import ViewsController from '../controllers/views.controller.js';
 const viewsController = new ViewsController();

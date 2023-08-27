@@ -23,7 +23,6 @@ dataForm.addEventListener('submit', evt => {
             socket.emit('client:productDelete', {
                 id: id.value
             })
-            console.log(id.value)
         }
     })
 })

@@ -38,7 +38,6 @@ chatBox.addEventListener('keyup', ({ key }) => {
 //FRONT RECIBE
 socket.on('msg_back_to_front', (msgs) => {
 
-  console.log(msgs);
   let formattedMessages = '';
   msgs.forEach((msg) => {
     formattedMessages += "<div style='border: 1px solid red;'>";

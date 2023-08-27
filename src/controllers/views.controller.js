@@ -2,7 +2,7 @@ import ViewsService from '../services/views.service.js';
 import  {ProductService} from '../services/products.service.js';
 const productService = new ProductService();
 const viewsService = new ViewsService();
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
  class ViewsController {
 
@@ -17,7 +17,7 @@ import logger from "../utils/logger.js";
 
     async getProducts(req, res) {
         try{
-            console.log("llega aca")
+          //  console.log("llega aca")
             const { page, limit, sort, category, status }= req.query;
             const queryResult = await productService.getAll(page, limit, sort, category, status);
             const {docs, ...paginationInfo} = queryResult;

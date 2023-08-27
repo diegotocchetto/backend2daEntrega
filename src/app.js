@@ -12,17 +12,23 @@ import handlebars from 'express-handlebars';
 import { __dirname, connectMongo,connectSocket} from './utils.js';
 import { iniPassport } from './config/passport.config.js';
 import ChatRouter from './routes/chat.router.js';
+import compression from 'express-compression';
 import { usersRouter } from './routes/users.router.js';
 import mockRouter from './routes/mock.router.js';
 import 'dotenv/config'
-import logger from "./utils/logger.js";
+import logger from './utils/logger.js';
+
 
 
 //EXPRESS
 const app = express();
 const port=process.env.PORT;
+app.use(express.static("src/public"));
+app.use(compression({
+  brotli: { enabled: true, zlib: {} },
+})
+);
 const httpServer =app.listen(port, () => {
-    //console.log("Conected to http://localhost:"+ port);
     logger.info("Conected to http://localhost:"+ port);
 });
 
@@ -72,7 +78,7 @@ app.use('/api/sessions', sessionsRouter);
 
 
 
-// redirect to /home
+// redirect to home
 app.get("/", (req, res) => {
   res.redirect("/products");
 });

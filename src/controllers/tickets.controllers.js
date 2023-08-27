@@ -1,5 +1,5 @@
-import { ticketsService } from "../services/index.js";
-import logger from "../utils/logger.js";
+import { ticketsService } from '../services/index.js';
+import logger from '../utils/logger.js';
 
 
 const getTicketsController = async (req, res) => {

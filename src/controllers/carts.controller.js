@@ -1,7 +1,7 @@
-import {CartService}  from "../services/carts.service.js";
-import {ticketsServices}  from "../services/tickets.service.js";
+import {CartService}  from '../services/carts.service.js';
+import {ticketsServices}  from '../services/tickets.service.js';
 import userDTO  from '../DAO/DTO/user.dto.js';
-import logger from "../utils/logger.js";
+import logger from '../utils/logger.js';
 
 
 const cartService = new CartService();

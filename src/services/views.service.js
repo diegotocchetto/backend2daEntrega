@@ -1,8 +1,9 @@
-//import { ProductModel } from '../DAO/Mongo/models/products.model.js';
-import { ProductDao } from "../DAO/modelFactory.js";
+
+import { ProductDao } from '../DAO/modelFactory.js';
  const ProductDAO = new ProductDao();
 import ProductService from '../services/products.service.js';
 import CartService from'../services/carts.service.js';
+
 
 const productService = new ProductService();
 const cartService = new CartService();

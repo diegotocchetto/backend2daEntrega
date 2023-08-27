@@ -1,6 +1,6 @@
 
-import { UserDao} from "../DAO/modelFactory.js";
-import { CartDao} from "../DAO/modelFactory.js";
+import { UserDao} from '../DAO/modelFactory.js';
+import { CartDao} from '../DAO/modelFactory.js';
 const UsersDAO = new UserDao();
 
 
