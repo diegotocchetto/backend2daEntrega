@@ -1,6 +1,7 @@
 import  {UserService} from '../services/users.service.js';
 const userService = new UserService();
 import logger from '../utils/logger.js';
+import {sendMailRegister} from '../utils/mail.js';
 
 export class UserController {
     async getAllUsers(req, res) {
@@ -46,6 +47,7 @@ export class UserController {
                 msg: 'user created',
                 data: userCreated,
             });
+            sendMailRegister(email);
         } catch (error) {
             logger.error('Error retrieving creating users :', error);
             return res.status(500).json({

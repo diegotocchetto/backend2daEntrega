@@ -5,7 +5,6 @@ export class CartDao {
 
   async create(cartData) {
     try {
-      console.log("LLEGA AL CARTS.DAO")
       return await CartModel.create(cartData);
     } catch (e) {
       throw e;

@@ -7,6 +7,7 @@ import {CartService} from '../services/carts.service.js';
 import GithubStrategy from 'passport-github2';
 import 'dotenv/config'
 import logger from '../utils/logger.js';
+import {sendMailRegister} from '../utils/mail.js';
 
 const cartService = new CartService();
 
@@ -61,6 +62,7 @@ export function iniPassport() {
           };
           let userCreated = await UserModel.create(newUser);
           logger.info('User Registration successful', { user: userCreated });
+          await sendMailRegister(email,firstName);
           return done(null, userCreated);
         } catch (e) {
 
