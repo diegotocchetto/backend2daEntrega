@@ -6,6 +6,7 @@ const LocalStrategy = local.Strategy;
 import {CartService} from '../services/carts.service.js';
 import GithubStrategy from 'passport-github2';
 import 'dotenv/config'
+import logger from "../utils/logger.js";
 
 const cartService = new CartService();
 
@@ -16,11 +17,11 @@ export function iniPassport() {
       try {
         const user = await UserModel.findOne({ email: username });
         if (!user) {
-          console.log('User Not Found with username (email) ' + username);
+          logger.debug('User Not Found with email ' + username);
           return done(null, false);
         }
         if (!isValidPassword(password, user.password)) {
-          console.log('Invalid Password');
+          logger.debug('Invalid Password');
           return done(null, false);
         }
 
@@ -45,6 +46,7 @@ export function iniPassport() {
           const cartId = cart._id;
           let user = await UserModel.findOne({ email: username });
           if (user) {
+            logger.debug('User already exists');
             return done(null, false);
           }
 
@@ -58,6 +60,7 @@ export function iniPassport() {
             cartId: cartId
           };
           let userCreated = await UserModel.create(newUser);
+          logger.info('User Registration successful', { user: userCreated });
           return done(null, userCreated);
         } catch (e) {
 
@@ -77,7 +80,7 @@ export function iniPassport() {
             callbackURL: process.env.callbackURL,
         },
         async (accessToken, _, profile, done) => {
-       
+          logger.debug(profile);
             try {
                 const res = await fetch('https://api.github.com/user/emails', {
                     headers: {
@@ -108,6 +111,7 @@ export function iniPassport() {
                     };
                     console.log("login github")
                     let userCreated = await UserModel.create(newUser);
+                    logger.info('User Registration succesful');
                     return done(null, userCreated);
                 } else {
 

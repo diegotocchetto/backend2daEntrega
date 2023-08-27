@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import mongoose from "mongoose";
+import logger from "../utils/logger.js";
 export let MessagesDAO;
 export let CartDao;
 export let ProductDao; 
@@ -8,7 +9,8 @@ export let UserDao;
 
 switch (process.env.PERSISTENCE) {
   case 'MONGO':
-    console.log('🍕Persistance with MongoDB');
+   // console.log('🍕Persistance with MongoDB');
+    logger.info('🍕Persistance with MongoDB');
 
      mongoose.connect(process.env.MONGOURL);
 

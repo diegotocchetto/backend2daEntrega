@@ -15,14 +15,15 @@ import ChatRouter from './routes/chat.router.js';
 import { usersRouter } from './routes/users.router.js';
 import mockRouter from './routes/mock.router.js';
 import 'dotenv/config'
-
+import logger from "./utils/logger.js";
 
 
 //EXPRESS
 const app = express();
 const port=process.env.PORT;
 const httpServer =app.listen(port, () => {
-    console.log("Conected to http://localhost:"+ port);
+    //console.log("Conected to http://localhost:"+ port);
+    logger.info("Conected to http://localhost:"+ port);
 });
 
 

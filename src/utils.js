@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import logger from "./utils/logger.js";
 
 //MULTER
 import multer from 'multer';
@@ -31,7 +32,8 @@ export async function connectMongo() {
       await connect(
         process.env.MONGOURL
       );
-      console.log("pluged to mongoCloud!");
+      //console.log("pluged to mongoCloud!");
+      logger.info("pluged to mongoCloud!");
     } catch (e) {
       console.log(e);
       throw "can not connect to the db";
