@@ -14,7 +14,6 @@ const transport = nodemailer.createTransport({
 
 
   export async function sendMailRegister(recipient,name) {
-  console.log("llega a enviar el mail")
     const result = await transport.sendMail({
       from: process.env.GOOGLE_EMAIL,
       to: recipient,

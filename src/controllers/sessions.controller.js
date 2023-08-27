@@ -20,6 +20,7 @@ const renderSessionView = (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
+    console.log("llega al getcurrentUser")
     return res.status(200).json({ user: req.session.user });
 };
 

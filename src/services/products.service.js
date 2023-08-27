@@ -87,7 +87,6 @@ export class ProductService{
 
       if (!_id) throw new Error('invalid _id');
       const prouctExist= await ProductDAO.findOne({_id});
-      console.log ("llega aca")
       if (!prouctExist) throw new Error('product not exist');
       const productUptaded = await ProductDAO.updateOne({ _id: _id }, { title, description, price,thumbnail,code,stock,category,status });
       return productUptaded;

@@ -12,7 +12,6 @@ import logger from '../utils/logger.js';
 export class CartService{
 
     async createOne(){
-        console.log("LLEGA")
         const cartCreated = await CartDAO.create({});
      
         return cartCreated;

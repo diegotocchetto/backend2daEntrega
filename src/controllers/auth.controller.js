@@ -78,7 +78,7 @@ const handleLogout = (req, res) => {
 };
 
 const renderAdministrationView = (req, res) => {
-    return res.send('Data');
+    return res.send(req.session.user);
 };
 
 export default  {
