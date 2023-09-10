@@ -17,6 +17,8 @@ import { usersRouter } from './routes/users.router.js';
 import mockRouter from './routes/mock.router.js';
 import 'dotenv/config'
 import logger from './utils/logger.js';
+import swaggerJSDoc  from 'swagger-jsdoc';
+import swaggerUiExpress  from 'swagger-ui-express';
 
 
 
@@ -77,6 +79,19 @@ app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 
 
+const swaggerOptions = {
+  definition: {
+      openapi: "3.0.1",
+      info: {
+          title: "Project Documentation",
+          description: "Coder project",
+      },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // redirect to home
 app.get("/", (req, res) => {
